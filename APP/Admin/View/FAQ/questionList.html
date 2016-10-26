@@ -1,0 +1,66 @@
+<include file="./APP/Admin/View/Common/Public_header_v1.html"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/bt.datepicker/daterangepicker-bs3.css" />
+<script type="text/javascript" src="__PUBLIC__/static/bt.datepicker/moment.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/bt.datepicker/daterangepicker.js"></script>
+<script type="text/javascript">
+    var search_url="{:U('Admin/FAQ/questionList')}";
+    function search(){
+        var videoTitle = $("#videoTitle").val();
+        var keyWord = $("#keyWord").val();
+        if (videoTitle.length > 0)
+            search_url = search_url + "&videoTitle="+videoTitle;
+        if (keyWord.length > 0)
+            search_url = search_url + "&keyWord="+keyWord;
+
+        window.location=search_url;
+    }
+</script>
+<ol class="breadcrumb">
+    <li>{:C('CONTROL_MENU')}</li>
+    <li>视频设置</li>
+    <li class="active"><a href="{:U('Admin/Video/videoList')}"> 视频列表</a></li>
+</ol>
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active"><a href="javascript:void(0);">提问列表</a></li>
+</ul>
+<div class="tab-content">
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            视频标题
+        </div>
+        <div class="panel-body">
+            &nbsp;&nbsp;&nbsp;&nbsp;{$list[0].vi_title}
+        </div>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th width="100px;">学员昵称</th>
+            <th width="650px;">问题详细</th>
+            <th width="200px;">提问时间</th>
+            <th width="100px;">回答数</th>
+            <th width="180px;">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="list" id="s">
+            <tr>
+                <td>{$s.stu_nickname}</td>
+                <td>{$s.que_content}</td>
+                <td>{$s.que_time}</td>
+                <td>{$s.ans_count}</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-default" href="{:U('Admin/FAQ/answerList?q_id='.$s['q_id'])}">查看回答</a>
+                        <a class="btn btn-danger" href="{:U('Admin/FAQ/questionDel?q_id='.$s['q_id'])}" onclick="return confirm('删除该问题也会删除该问题下的回答，确定要删除吗？')";>删除</a>
+                    </div>
+                </td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+</div>
+<div class="page">{$Page}</div>
+<include file="./APP/Admin/View/Common/Public_footer_v1.html"/>

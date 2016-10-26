@@ -1,0 +1,88 @@
+<include file="./APP/Admin/View/Common/Public_header_v1.html"/>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/ueditor1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/ueditor1.4.3/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/ueditor1.4.3/lang/zh-cn/zh-cn.js"></script>
+<style type="text/css">
+    .form-horizontal{width:850px;}
+    .form-horizontal>.form-group{border-top: 1px solid #ccc;padding-top:20px;margin-left:15px;margin-right:0px;}
+    .form-horizontal>.form-group:first-child{border-top:none;}
+    .form-group>.col-sm-2{width: 110px;}
+    .form-group>.col-sm-10{width: 700px;}
+</style>
+<ol class="breadcrumb">
+    <li>{:C('CONTROL_MENU')}</li>
+    <li>学员管理</li>
+    <li class="active"><a href="{:U('Admin/Student/stuList')}"> 学员列表</a></li>
+    <li>编辑学员</li>
+</ol>
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active"><a href="javascript:void(0);">编辑学员</a></li>
+</ul>
+<form action="{:U('Admin/Student/stuEdit?stu_id='.$stu['stu_id'])}" class="form-horizontal" method="post">
+    <div class="form-group">
+        <label for="stu_user" class="col-sm-2 control-label">注册账号</label>
+        <div class="col-sm-10">
+            <input class="form-control" readonly="readonly" type="text" value="{$stu.stu_user}" id="stu_user" name="stu_user" datatype="s6-11" nullmsg="请输入注册账号" errormsg="账号长度为6-11个字符" />
+            <div class="Validform_checktip">账号长度为6-11个字符</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="stu_nickname" class="col-sm-2 control-label">学员昵称</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="text" id="stu_nickname" autocomplete="off" value="{$stu.stu_nickname}" name="stu_nickname" datatype="s" nullmsg="请输入讲师姓名" errormsg="请填写正确的学生昵称"/>
+            <div for="tea_name" class="Validform_checktip">请输入学生昵称</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="stu_phone" class="col-sm-2 control-label">手机号</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="text" id="stu_phone" autocomplete="off" value="{$stu.stu_phone}" name="stu_phone" datatype="m" nullmsg="请输入学员手机号" errormsg="请输入正确的手机号"/>
+            <div class="Validform_checktip">请输入学员手机号</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">性别</label>
+        <div class="col-sm-10">
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary <eq name="stu.stu_sex" value="男">active</eq>">
+                    <input type="radio" name="stu_sex" value="男" <eq name="stu.stu_sex" value="男">checked</eq>>男
+                </label>
+                <label class="btn btn-primary <eq name="stu.stu_sex" value="女">active</eq>">
+                    <input type="radio" name="stu_sex" value="女" <eq name="stu.stu_sex" value="女">checked</eq>>女
+                </label>
+                <label class="btn btn-primary <eq name="stu.stu_sex" value="其他">active</eq>">
+                    <input type="radio" name="stu_sex" value="其他" <eq name="stu.stu_sex" value="其他">checked</eq>>其他
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class= "col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">保存编辑</button>
+        </div>
+    </div>
+</form>
+<link href="__PUBLIC__/static/Validform/css/style.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="__PUBLIC__/static/Validform/Validform_v5.3.2_min.js"></script>
+
+<script type="text/javascript" language="javascript">
+    $(function(){
+        $(".form-horizontal").Validform({
+            tiptype:function(msg,o,cssctl){
+                if(!o.obj.is("form")){
+                    var objtip=o.obj.nextAll(".Validform_checktip");
+                    cssctl(objtip,o.type);
+                    objtip.text(msg);
+                }
+            },
+            beforeCheck:function(curform){
+                if(!confirm('确定提交本次操作吗？'))
+                {
+                    return false;
+                }
+            }
+        });
+
+    });
+</script>
+<include file="./APP/Admin/View/Common/Public_footer_v1.html"/>

@@ -1,0 +1,66 @@
+<include file="./APP/Admin/View/Common/Public_header_v1.html"/>
+<style type="text/css">
+    .form-horizontal{width:850px;}
+    .form-horizontal>.form-group{border-top: 1px solid #ccc;padding-top:20px;margin-left:15px;margin-right:0px;}
+    .form-horizontal>.form-group:first-child{border-top:none;}
+    .form-group>.col-sm-2{width: 110px;}
+    .form-group>.col-sm-10{width: 700px;}
+</style>
+<ol class="breadcrumb">
+    <li>{:C('CONTROL_MENU')}</li>
+    <li>学员管理</li>
+    <li class="active"><a href="{:U('Admin/Student/stuList')}"> 学员列表</a></li>
+    <li>学员偏好</li>
+</ol>
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active"><a href="javascript:void(0);">学员偏好</a></li>
+</ul>
+<form action="{:U('Admin/Student/stuLike?stu_id='.$stu['stu_id'])}" class="form-horizontal" method="post">
+    <div class="form-group">
+        <label for="stu_nickname" class="col-sm-2 control-label">学员昵称</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="text" id="stu_nickname" value="{$stu.stu_nickname}" readonly="readonly"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">视频分类</label>
+        <div class="col-sm-10">
+            <div data-toggle="buttons">
+                <volist name="videoClass" id="c">
+                    <label class="btn btn-default <in name='c.class_id' value='$stu["class_id"]'>active</in>">
+                        <input name="class_id[]" type="checkbox" value="{$c.class_id}" <in name='c.class_id' value='$stu["class_id"]'>checked</in>>{$c.class_name}
+                    </label>&nbsp;&nbsp;
+                </volist>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class= "col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">设置偏好</button>
+        </div>
+    </div>
+</form>
+<link href="__PUBLIC__/static/Validform/css/style.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="__PUBLIC__/static/Validform/Validform_v5.3.2_min.js"></script>
+
+<script type="text/javascript" language="javascript">
+    $(function(){
+        $(".form-horizontal").Validform({
+            tiptype:function(msg,o,cssctl){
+                if(!o.obj.is("form")){
+                    var objtip=o.obj.nextAll(".Validform_checktip");
+                    cssctl(objtip,o.type);
+                    objtip.text(msg);
+                }
+            },
+            beforeCheck:function(curform){
+                if(!confirm('确定提交本次操作吗？'))
+                {
+                    return false;
+                }
+            }
+        });
+
+    });
+</script>
+<include file="./APP/Admin/View/Common/Public_footer_v1.html"/>

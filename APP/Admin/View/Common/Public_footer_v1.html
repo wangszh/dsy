@@ -1,0 +1,110 @@
+<script type="text/javascript">
+    function showYesOrNo(msg, url) {
+        if (confirm(msg)) {
+            window.location = url;
+        }
+    }
+    var contorlNavSHOW = $(".breadcrumb li");
+    var cnsTxt =  contorlNavSHOW.eq(1).text();
+    $("#contorlNav>.dropdown>a").each(function(i,o){
+        if($(o).text() == cnsTxt){
+            $(o).parent().attr('class','active dropdown');
+        }
+    });
+    function upPwd()
+    {
+        document.getElementById('formUpPwd').submit();
+    }
+    console.log('**********************************************************************************\n' +
+    '小朋友,我是开发者(叫哥)！\n这个鬼东西是用TP3.2作为后台系统\nBootstrap作为前端主体框架\n验证表单用Validform5.3.2\n富文本采用百度ueditor\n' +
+    '**********************************************************************************\n' +
+    'if 你恰好有 don\'t know 的地方，so 就来 ask me 吧\nQQ:626218581,David 留言附来自console\n' +
+    '**********************************************************************************\n' +
+    'At the end , 这套系统是我纯手打，麻烦整容的时候轻点！服务和前端扩展包都有很多有用的呢，好好找找\n' +
+    '**********************************************************************************\n');
+
+    /**
+     * POST 提交异步请求
+     * @param url 调用的url地址
+     * @param options json参数
+     * @param success 成功后的回调函数
+     * @param failed 失败后的回调函数
+     */
+    function ajaxCall(url, options, success, failed) {
+        $.ajax({
+            type: 'POST',
+            url: url, // 请求的url地址
+            dataType: 'json', // 返回格式为json
+            data: options,
+            success: success,
+            error: failed
+        });
+    }
+
+    /*
+     *  AJAX 失败公共方法
+     */
+    function failed() {
+        alert("数据链接超时！");
+    }
+
+    Date.prototype.Format = function(fmt)
+    {
+        var o = {
+            "M+" : this.getMonth()+1,                 //月份
+            "d+" : this.getDate(),                    //日
+            "h+" : this.getHours(),                   //小时
+            "m+" : this.getMinutes(),                 //分
+            "s+" : this.getSeconds(),                 //秒
+            "q+" : Math.floor((this.getMonth()+3)/3), //季度
+            "S"  : this.getMilliseconds()             //毫秒
+        };
+        if(/(y+)/.test(fmt))
+            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+        for(var k in o)
+            if(new RegExp("("+ k +")").test(fmt))
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+        return fmt;
+    }
+</script>
+<!-- 模态框（Modal） -->
+<!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+    <!--<div class="modal-dialog modal-md">-->
+        <!--<div class="modal-content">-->
+            <!--<div class="modal-header">-->
+                <!--<button type="button" class="close"-->
+                        <!--data-dismiss="modal" aria-hidden="true">-->
+                    <!--&times;-->
+                <!--</button>-->
+                <!--<div class="modal-title" id="myModalLabel">-->
+                    <!--<h2 class="form-signin-heading">修改管理员密码&nbsp;&nbsp;<font id="pub_modal_show_msg_body" style="font-size: 14px;font-style: normal;color:#ff8000;"></font></h2>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="modal-body">-->
+                <!--<form class="form-horizontal" id="formUpPwd" name="formUpPwd" action="{:U('Admin/User/upPwd')}" method="post">-->
+                    <!--<div class="form-group">-->
+                        <!--<label for="inputOldPasswordUser" class="col-sm-2 control-label">旧密码：</label>-->
+                        <!--<div class="col-sm-10">-->
+                            <!--<input type="password" class="form-control" name="opwd" id="inputOldPasswordUser" placeholder="密码" required="">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<label for="inputPasswordUser" class="col-sm-2 control-label">新密码：</label>-->
+                        <!--<div class="col-sm-10">-->
+                            <!--<input type="password" class="form-control" name="npwd" id="inputPasswordUser" placeholder="密码" required="">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</form>-->
+            <!--</div>-->
+            <!--<div class="modal-footer text-center">-->
+                <!--<button onclick="upPwd()" value="保存" class="btn btn-primary btnTrans" style="width:140px;margin:0px auto;display: block;" id="modal_login" data-no="login">保 存</button>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<p class="text-center" style="border-top: 1px solid #ccc;margin-top:120px;"><br><br>{:C('SITE_TITLE')}({:C('SITE_VERSION')})<br>copyright&copy;2015  版权所有 </p>
+</div><!-- main over -->
+</div><!-- row over -->
+</div><!-- container-fluid over -->
+</body>
+</html>

@@ -1,0 +1,50 @@
+<include file="./APP/Admin/View/Common/Public_header_v1.html"/>
+<style type="text/css">
+    .popover-title{font-weight: 600 !important;}
+    .thumbnail .badge{position:absolute;z-index: 99;}
+    .play_layout{position:absolute;z-index: 99;top:0;width:90%;height:180px;line-height:180px;text-align:center;background-color:#fff;
+        filter:alpha(opacity=30);
+        -moz-opacity:0.3;
+        -khtml-opacity: 0.3;
+        opacity: 0.3;  }
+    .play_layout .glyphicon-play{font-size:36px;color:#000;}
+</style>
+<ol class="breadcrumb">
+    <li>{:C('CONTROL_MENU')}</li>
+    <li>学员管理</li>
+    <li class="active"><a href="{:U('Admin/Student/stuList')}">学员列表</a></li>
+    <li>学员收藏</li>
+</ol>
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active"><a href="javascript:void(0);">收藏列表</a></li>
+</ul>
+<hr>
+<div class="row">
+    <if condition="$list neq false"><volist name="list" id="s">
+        <div class="col-md-2" data-toggle="popover" data-trigger="hover" data-placement="left" title="{$s.vi_title}" data-content="{$s.vi_des}">
+            <div class="thumbnail">
+                <span class="badge">{$s.class_name}</span>
+                <a href="{:U('Admin/Video/videoDet?vi_id='.$s['vi_id'])}" title="点击播放视频">
+                    <img src=".{$s.vi_img}" style="height: 180px; width: 100%; display: block;" title="缩略图" />
+                    <div class="play_layout"><i class="glyphicon glyphicon-play"></i></div>
+                </a>
+                <div class="caption">
+                    <p><i class="glyphicon glyphicon-user"></i>{$s.tea_name}<br>收藏时间：{$s.collect_time|substr=0,10}</p>
+                    <div class="btn-group">
+                        <a class="btn btn-success" href="{:U('Admin/Video/videoDet?vi_id='.$s['vi_id'])}">视频详情</a>
+                        <a class="btn btn-danger" href="javascript:showYesOrNo('您确定取消收藏吗？','{:U("Admin/Student/collectDel?co_id=".$s["collect_id"])}');">取消收藏</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </volist><else/>
+        <p style="width:80%;padding:10px;font-size:16px;color:#EC7A7A;text-align: center;"><i class="glyphicon glyphicon-search"></i> 没有找到匹配的数据！</p>
+    </if>
+</div>
+<div class="page">{$Page}</div>
+<script type="text/javascript">
+    $(function(){
+        $("[data-toggle='popover']").popover();
+    })
+</script>
+<include file="./APP/Admin/View/Common/Public_footer_v1.html"/>

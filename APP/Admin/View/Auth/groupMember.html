@@ -1,0 +1,40 @@
+<include file="./APP/Admin/View/Common/Public_header_v1.html"/>
+<ol class="breadcrumb">
+    <li>{:C('CONTROL_MENU')}</li>
+    <li>权限管理</li>
+    <li><a href="{:U('Admin/Auth/groupList')}">角色管理</a></li>
+    <li class="active">成员管理</li>
+</ol>
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>角色名称</th>
+            <th>角色描述</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="result" id="vo">
+            <tr>
+                <td>{$i+$num}</td>
+                <td>{$vo['user_name']}</td>
+                <td>{$group['groupName']}</td>
+                <td><if condition="$vo['status'] eq 1"><span class="label label-success"><i class="glyphicon glyphicon-ok"></i></span>
+                    <else /><span class="label label-danger"><i class="glyphicon glyphicon-remove"></i></span>
+                </if></td>
+                <td>
+                    <div class="btn-group btn-group-sm">
+                        <a class="btn btn-warning" href="{:U('System/userEdit?user_id='.$vo['user_id'])}">修改</a>
+                        <a class="btn btn-danger" href="javascript:showYesOrNo('您确定删除角色组成员吗？','{:U('Auth/groupMemberDel?uid='.$vo['uid'])}');">删除</a>
+                    </div>
+                </td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+</div>
+<div class="page">{$Page}</div>
+<include file="./APP/Admin/View/Common/Public_footer_v1.html"/>

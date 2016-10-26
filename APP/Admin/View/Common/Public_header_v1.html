@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="./favicon.ico" mce_href="./favicon.ico" type="image/x-icon">
+    <title>{:C('SITE_TITLE')}-{:C('SITE_VERSION')}</title>
+    <link href="__PUBLIC__/static/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="__PUBLIC__/static/bootstrap3/js/jquery.min.js"></script>
+    <script src="__PUBLIC__/static/bootstrap3/js/bootstrap.min.js"></script>
+    <!--[if IE]><script src="__ROOT__/Public/static/html5.js"></script><![endif]-->
+    <style>
+        body {
+            padding-top: 50px;
+        }
+        .sub-header {
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .navbar-fixed-top {
+            border: 0;
+        }
+        .sidebar {
+            display: none;
+        }
+        @media (min-width: 768px) {
+            .sidebar {
+                position: fixed;
+                top: 51px;
+                bottom: 0;
+                left: 0;
+                z-index: 1000;
+                display: block;
+                padding: 20px;
+                overflow-x: hidden;
+                overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+                background-color: #f5f5f5;
+                border-right: 1px solid #eee;
+            }
+        }
+        .nav-sidebar {
+            margin-right: -21px; /* 20px padding + 1px border */
+            margin-bottom: 20px;
+            margin-left: -20px;
+        }
+        .nav-sidebar > li > a {
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+        .nav-sidebar > .active > a,
+        .nav-sidebar > .active > a:hover,
+        .nav-sidebar > .active > a:focus {
+            color: #fff;
+            background-color: #428bca;
+        }
+        .main {
+            padding: 20px;
+        }
+        @media (min-width: 768px) {
+            .main {
+                padding-right: 40px;
+                padding-left: 40px;
+            }
+        }
+        .navbar-fixed-bottom, .navbar-fixed-top{z-index:999;}
+        /* --  分页样式  -- */
+        .page{font-size:14px;font-family:'微软雅黑';height:55px;width:100%;padding-top:10px;line-height: 40px;}
+        .page>a,.page>span{padding:5px 10px;margin-right:10px;display:block;float:left;background: #fff;border:1px solid #ddd;color:#337ab7;line-height: 20px;}
+        .page>span{border:none;color:#969696;}
+        .page>span.current{background:#337ab7;border:1px solid #337ab7;color:#fff;}
+        /* --  其他样式  -- */
+        #editor_id *,#edui_fixedlayer *{box-sizing: content-box;}
+        .nav-sidebar>li.dropdown{border-bottom: 1px solid #ccc;}
+        .btn{transition: all 0.3s ease-in-out 0s;}
+        .btn.btn-outline{color: #563d7c; border-color: #563d7c;}
+        .tab-content{padding:10px 0px;}
+        table.table tr td{vertical-align: middle;}
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">MINI</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="javascript:alert('好好学习，天天向上');">{:C('SITE_TITLE')}-{:C('SITE_VERSION')}后台管理</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="javascript:void(0);">Hi：{$userName}({$remark})</a>
+                <li><a href="{:U('Admin/User/Logout')}">注销登录</a></li>
+            </ul>
+            <!--<form class="navbar-form navbar-right">-->
+                <!--<input type="text" class="form-control" placeholder="Search...">-->
+            <!--</form>-->
+        </div>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar" id="contorlNav">
+                <if condition="authCheck('Admin/System/userList,Admin/User/ownerList,Admin/Store/storeList',$uid)">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">系统账户<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <if condition="authCheck('Admin/System/userList',$uid)"><li><a href="{:U('Admin/System/userList')}">后台用户管理</a></li></if>
+                        </ul>
+                    </li>
+                </if>
+                <if condition="authCheck('Admin/Auth/accessList,Admin/Auth/accessAdd,Admin/Auth/groupList,Admin/Auth/modulesList',$uid)">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">权限管理<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <if condition="authCheck('Admin/Auth/accessList',$uid)"><li><a href="{:U('Admin/Auth/accessList')}">权限列表</a></li></if>
+                            <if condition="authCheck('Admin/Auth/accessAdd',$uid)"><li><a href="{:U('Admin/Auth/accessAdd')}">添加权限</a></li></if>
+                            <if condition="authCheck('Admin/Auth/groupList',$uid)"><li><a href="{:U('Admin/Auth/groupList')}">角色管理</a></li></if>
+                            <if condition="authCheck('Admin/Auth/modulesList',$uid)"><li><a href="{:U('Admin/Auth/modulesList')}">模块管理</a></li></if>
+                        </ul>
+                    </li>
+                </if>
+                <if condition="authCheck('Admin/System/CheckCity,Admin/System/system,Admin/System/ClearData,Admin/Cron/index,Admin/Databasce/index?type=export,Admin/Databasce/index?type=import,Admin/ActionLog/index',$uid)">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">系统设置<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <if condition="authCheck('Admin/System/CheckCity',$uid)"><li class="bt1"><a href="{:U('Admin/System/CheckCity')}">全国城市校验</a></li></if>
+                            <if condition="authCheck('Admin/System/system',$uid)"><li><a href="{:U('Admin/System/system')}">公共参数配置</a></li></if>
+                            <if condition="authCheck('Admin/System/ClearData',$uid)"><li><a href="{:U('Admin/System/ClearData')}">清空数据</a></li></if>
+                            <if condition="authCheck('Admin/Cron/index',$uid)"><li><a href="{:U('Admin/Cron/index')}">任务列表</a></li></if>
+                            <if condition="authCheck('Admin/Databasce/export',$uid)"><li><a href="{:U('Admin/Databasce/index?type=export')}">数据备份</a></li></if>
+                            <if condition="authCheck('Admin/Databasce/index?type=import',$uid)"><li><a href="{:U('Admin/Databasce/index?type=import')}">数据恢复</a></li></if>
+                            <if condition="authCheck('Admin/ActionLog/index',$uid)"><li><a href="{:U('Admin/ActionLog/index')}">日志管理</a></li></if>
+                        </ul>
+                    </li>
+                </if>
+                <if condition="authCheck('Admin/Adv/advList,Admin/Adv/advAdd,Admin/Adv/advEdit',$uid)">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">广告设置<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <if condition="authCheck('Admin/Adv/advList',$uid)"><li><a href="{:U('Admin/Adv/advList')}">广告管理</a></li></if>
+                            <if condition="authCheck('Admin/Adv/advAdd',$uid)"><li><a href="{:U('Admin/Adv/advAdd')}">添加广告</a></li></if>
+                        </ul>
+                    </li>
+                </if>
+                <if condition="authCheck('Admin/Video/videoTypeList,Admin/Video/videoTypeAdd,Admin/Video/videoList,Admin/Video/videoAdd',$uid)">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">视频设置<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <if condition="authCheck('Admin/Video/videoTypeList',$uid)"><li><a href="{:U('Admin/Video/videoTypeList')}">视频类型管理</a></li></if>
+                            <if condition="authCheck('Admin/Video/videoTypeAdd',$uid)"><li><a href="{:U('Admin/Video/videoTypeAdd')}">添加视频类型</a></li></if>
+                            <if condition="authCheck('Admin/Video/videoList',$uid)"><li><a href="{:U('Admin/Video/videoList')}">视频管理</a></li></if>
+                            <if condition="authCheck('Admin/Video/videoAdd',$uid)"><li><a href="{:U('Admin/Video/videoAdd')}">添加视频</a></li></if>
+                        </ul>
+                    </li>
+                </if>
+                <if condition="authCheck('Admin/Teacher/teaList,Admin/Teacher/teaAdd',$uid)">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">讲师管理<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <if condition="authCheck('Admin/Teacher/teaList',$uid)"><li><a href="{:U('Admin/Teacher/teaList')}">讲师管理</a></li></if>
+                            <if condition="authCheck('Admin/Teacher/teaAdd',$uid)"><li><a href="{:U('Admin/Teacher/teaAdd')}">添加讲师</a></li></if>
+                        </ul>
+                    </li>
+                </if>
+                <if condition="authCheck('Admin/Student/stuList,Admin/Student/stuAdd',$uid)">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">学员管理<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <if condition="authCheck('Admin/Student/stuList',$uid)"><li><a href="{:U('Admin/Student/stuList')}">学员列表</a></li></if>
+                            <if condition="authCheck('Admin/Student/stuAdd',$uid)"><li><a href="{:U('Admin/Student/stuAdd')}">学员注册</a></li></if>
+                        </ul>
+                    </li>
+                </if>
+                <!--<li>-->
+                    <!--<a href="#myModal" title="Login" data-toggle="modal">修改管理员密码</a>-->
+                <!--</li>-->
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">

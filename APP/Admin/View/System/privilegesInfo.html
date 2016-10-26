@@ -1,0 +1,54 @@
+<include file="./APP/Admin/View/Common/Public_header.html"/>
+<div class="weixin edit">
+    <form action="{:U('Admin/System/privilegesInfo?privilege_id='.$info['privilege_id'])}" method="post">
+        <div class="act">
+            <div class="h1 fl">修改地址信息</div>
+            <a href="{:U('Admin/System/privilegesList')}" class="button2 fr">返回</a>
+            <div class="cb"></div>
+        </div>
+        <div class="hr"></div>
+        <div class="form">
+        	<div class="tiao">
+            	<div class="title">权限名称:</div>
+                <input type="text" value="{$info.privilege_name}" name="privilege_name" style="width:25%">
+                <input type="checkbox" name="is_show" value="1"<eq name="info['is_show']" value="1">checked="checked"</eq>>是否菜单
+            </div>
+            <if condition="!$info['pid']">
+            <div class="tiao">
+            	<div class="title">上级菜单:</div>
+                <select name="pid">
+                	<option value="0">顶级菜单</option>
+                    <volist name="PList" id="vo">
+                        <option value="{$vo.privilege_id}"<eq name="vo.privilege_id" value="$info['pid']">selected="selected"</eq>>{$vo.privilege_name}</option>
+                    </volist>
+                </select>
+            </div>
+            </if>
+            <div class="tiao">
+            	<div class="title">模块:</div>
+				<input type="text" name="module_name" value="{$info.module_name}" style="width:25%">
+            </div>
+            <div class="tiao">
+            	<div class="title">控制器:</div>
+				<input type="text" name="controller_name" value="{$info.controller_name}" style="width:25%">
+            </div>
+            <div class="tiao">
+            	<div class="title">方法:</div>
+				<input type="text" name="action_name" value="{$info.action_name}" style="width:25%">
+            </div>
+            <div class="tiao">
+            	<div class="title">参数:</div>
+				<input type="text" name="par_name" value="{$info.par_name}" style="width:25%">
+            </div>
+            <div class="tiao">
+            	<div class="title">排序:</div>
+				<input type="text" name="sort" value="{$info.sort}" style="width:5%; min-width:50px;">
+            </div>
+        </div>
+        <div class="hr"></div>
+        <div class="act">
+            <input type="submit" class="button2" value="提交保存">
+        </div>
+    </form>
+</div>
+<include file="./APP/Admin/View/Common/Public_footer.html"/>

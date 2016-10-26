@@ -1,0 +1,22 @@
+<include file="./APP/Admin/View/Common/Public_header_v1.html"/>
+<ol class="breadcrumb">
+    <li>{:C('CONTROL_MENU')}</li>
+    <li>系统设置</li>
+    <li class="active"><a href="{:U('Admin/Auth/accessList')}">清空数据</a></li>
+</ol>
+<div class="tab-content">
+    <div class="alert alert-danger" role="alert"><p>**********************************************<br>**** 请谨慎执行本操作！！！<br>**********************************************</p></div>
+</div>
+<script type="text/javascript">
+    var search_url="{:U('Admin/System/ClearData')}";
+    function clearData(d)
+    {
+        if(confirm('确定执行该操作？'))  window.location.href=search_url+"&t="+d;
+    }
+</script>
+<div class="list-group" style="width: 400px;">
+    <a href="javascript:void(0);" class="list-group-item" onclick="clearData('file')" id="clear_files">清理(Runtime/Cache)模板缓存</a>
+    <a href="javascript:void(0);" class="list-group-item" onclick="clearData('logs')" id="clear_logs">清空Log日志文件</a>
+    <a href="javascript:void(0);" class="list-group-item" onclick="clearData1('data')" id="clear_data">清空数据（不开放，请联系技术人员操作）</a>
+</div>
+<include file="./APP/Admin/View/Common/Public_footer_v1.html"/>

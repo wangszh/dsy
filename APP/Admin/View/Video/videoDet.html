@@ -1,0 +1,223 @@
+<include file="./APP/Admin/View/Common/Public_header_v1.html"/>
+<link rel="stylesheet" href="__PUBLIC__/static/flowplayer/skin/functional.css">
+<script src="__PUBLIC__/static/flowplayer/flowplayer.min.js"></script>
+<link href="__PUBLIC__/static/start-rating/star-rating.min.css" media="all" rel="stylesheet" type="text/css"/>
+<script src="__PUBLIC__/static/start-rating/star-rating.min.js" type="text/javascript"></script>
+<style type="text/css">
+.nav-tabs img{display: none;}
+</style>
+<ol class="breadcrumb">
+    <li>{:C('CONTROL_MENU')}</li>
+    <li>视频设置</li>
+    <li class="active"><a href="{:U('Admin/Video/videoList')}"> 视频列表</a></li>
+    <li>视频详情</li>
+</ol>
+<div class="page-header">
+    <h1>{$video.vi_title}<small>{$video.vi_create_time}</small></h1>
+</div>
+<div class="row">
+    <div class="col-md-9" role="main">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#des" aria-controls="des" role="tab" data-toggle="tab">视频详情</a></li>
+            <li role="presentation"><a href="#note" aria-controls="note" role="tab" data-toggle="tab"> 笔 记 </a></li>
+            <li role="presentation"><a href="#an" id="tab_an" aria-controls="an" role="tab" data-toggle="tab"> 问 答 <img id="tag_img_an" src="__PUBLIC__/loading.gif"></a></li>
+            <li role="presentation"><a href="#eval" id="tab_eval" aria-controls="eval" role="tab" data-toggle="tab"> 评 论 <img id="tag_img_eval" src="__PUBLIC__/loading.gif"></a></li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="des">
+                <div class="col-md-9">
+                    <div class="jumbotron">
+                        <div data-ratio="0.6" class="flowplayer">
+                            <video data-title="{$video.vi_title}">
+                                <source type="video/flash" src="{$video.vi_link}">
+                            </video>
+                        </div>
+                        <p class="text-warning"><i class="glyphicon glyphicon-warning-sign"></i> 视频支持格式为mp4、flv格式，swf格式不兼容</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class="badge">{$video.vi_play_count}</span>
+                            播放数
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge">{$video.vi_thumb_count}</span>
+                            点赞数
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge">{$video.vi_eval_count}</span>
+                            评论数
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge">{$video.vi_collect_count}</span>
+                            收藏数
+                        </li>
+                        <li class="list-group-item">
+                            简介：{$video.vi_des}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="note">
+                <div class="col-md-12">
+                    {$video.vi_notes}
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="an"></div>
+            <div role="tabpanel" class="tab-pane fade" id="eval"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var loadObj = "<p class=\"text-center\"><img src=\"__PUBLIC__/loading.gif\"> loading...</p>";
+    var quUrl = "{:U('Admin/FAQ/questionList?vi_id='.$_GET['vi_id'])}";
+    var anUrl = "{:U('Admin/FAQ/answerList')}";
+    var evalUrl = "{:U('Admin/Video/videoEval?vi_id='.$_GET['vi_id'])}";
+    function loadFAQ()
+    {
+        //问题
+        $.getJSON(quUrl, function(data) {
+                    var showHtmL = "<div class=\"panel-group\" id=\"accordion\" role=\"tablist\" aria-multiselectable=\"true\">";
+                    var template1 = $('#templateFAQ').html();
+                    if(data.data.length == 0){
+                        $('#an').html('还没有人提问');
+                    }else{
+                        $(data.data).each(function (i, o) {
+                            showHtmL += template1.replace(/\[que_time\]/g, o.que_time).replace(/\[q_id\]/g, o.q_id)
+                                    .replace(/\[que_content\]/g, o.que_content);
+                        });
+                        showHtmL += "</div><div class='page'>"+data.page+"</div>";
+                        $('#an').html(showHtmL);
+                        resetLinkA();
+                    }
+                    $("#tag_img_an").hide();
+                }
+        );
+    }
+    $('#tab_an').on('shown.bs.tab', function (e) {
+        $("#tag_img_an").show();
+        setTimeout(loadFAQ,1000);
+    });
+
+    function resetLinkA(){
+        var as = $('.page a');
+        as.bind('click',function(){
+            quUrl =$(this).attr('href');
+            $("#tag_img_an").show();
+            setTimeout(loadFAQ,1000);
+            return false;
+        });
+
+        $('.panel-collapse').on('shown.bs.collapse', function () {
+            //回答
+            $obj = $(this);
+            $obj.children('.panel-body').html(loadObj);
+            var q_id = $obj.attr('data-no');
+            $.getJSON(anUrl,{q_id:q_id}, function(data) {
+                        var showHtmL = "";
+                        var template2 = $('#templateANSWER').html();
+                        if(data.length == 0){
+                            $obj.children('.panel-body').html('还没有人回答此提问');
+                        }else
+                        {
+                            $(data).each(function (i, o) {
+                                if(o.a_stu_id == null){
+                                    showHtmL += template2.replace(/\[headImg\]/g, o.tea_head_img).replace(/\[nickName\]/g, o.tea_name).replace(/\[time\]/g, o.a_time)
+                                            .replace(/\[content\]/g, o.a_content).replace(/\[peopleID\]/g, o.a_tea_id);
+                                }
+                                else if(o.a_tea_id == null)
+                                {
+                                    showHtmL += template2.replace(/\[headImg\]/g, o.stu_head_img).replace(/\[nickName\]/g, o.stu_nickname).replace(/\[time\]/g, o.a_time)
+                                            .replace(/\[content\]/g, o.a_content).replace(/\[peopleID\]/g, o.a_stu_id);
+                                }
+                            });
+                            $obj.children('.panel-body').html(showHtmL);
+                        }
+                    }
+            );
+        })
+    }
+
+    // 加载评论
+    function loadEval(){
+        $.getJSON(evalUrl,function(data){
+            var showHtmL = "<div class=\"panel-group\" role=\"tablist\" aria-multiselectable=\"true\">";
+            var template = $('#templateEVAL').html();
+            if(data.data.length == 0){
+                $('#eval').html('暂无评论');
+            }
+            else{
+                $(data.data).each(function (i, o) {
+                    showHtmL += template.replace(/\[headImg\]/g, o.stu_head_img).replace(/\[nickName\]/g, o.stu_nickname).replace(/\[time\]/g, o.eval_time)
+                            .replace(/\[stu_id\]/g, o.stu_id).replace(/\[content\]/g, o.eval_content).replace(/\[num\]/g, o.eval_number);
+                });
+                showHtmL += "</div><div class='page'>"+data.page+"</div>";
+                $('#eval').html(showHtmL);
+                $(".input-id").rating({ // 初始化评星插件
+                    showCaption:false,
+                    showClear:false,
+                    readonly:true
+                });
+                var as = $('.page a');
+                as.bind('click',function(){
+                    evalUrl =$(this).attr('href');
+                    $("#tag_img_eval").show();
+                    setTimeout(loadEval,1000);
+                    return false;
+                });
+            }
+            $("#tag_img_eval").hide();
+        });
+    }
+
+    $('#tab_eval').on('shown.bs.tab', function (e){
+        $("#tag_img_eval").show();
+        setTimeout(loadEval,1000);
+    });
+</script>
+<script type="text/x-template" id="templateFAQ">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordion" href="#coll[q_id]" aria-expanded="true" aria-controls="#coll[q_id]">
+                    Q：[que_content]&nbsp;&nbsp;<font class="text-muted small">[que_time]</font>
+            </h4>
+        </div>
+        <div id="coll[q_id]" class="panel-collapse collapse" data-no="[q_id]" role="tabpanel">
+            <div class="panel-body">
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-template" id="templateANSWER">
+    <div class="media">
+        <div class="media-left">
+            <img class="media-object" width="35px" src=".[headImg]" alt="...">
+        </div>
+        <div class="media-body">
+            <p class="media-heading">[nickName]（ID：[peopleID]） <font class="text-muted small">[time]</font></p>
+            <p>[content]</p>
+        </div>
+    </div>
+</script>
+
+<!-- 评论模板 -->
+<script type="text/x-template" id="templateEVAL">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="media">
+                <div class="media-left">
+                    <img class="media-object" width="35px;" src=".[headImg]" alt="...">
+                </div>
+                <div class="media-body">
+                    <p class="media-heading">[nickName]（ID:[stu_id]）<font class="text-muted small">[time]</font>
+                        <input class="input-id" type="number" value="[num]" class="rating" min=0 max=5 step=0.5 data-size="xs" ></p>
+                    <div class="col-sm-10" style="padding-left: 0;">
+                        [content]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<include file="./APP/Admin/View/Common/Public_footer_v1.html"/>

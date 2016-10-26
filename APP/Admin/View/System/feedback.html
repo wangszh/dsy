@@ -1,0 +1,75 @@
+<include file="./APP/Admin/View/Common/Public_header.html"/>
+
+<script type="text/javascript">
+    var search_url="{:U('Admin/System/feedback')}";
+//    function search(){
+//        var sd = $("#searchType option:selected");
+//        var key = $("#searchkey").val();
+//        window.location=search_url+"&searchType="+sd.val()+"&searchkey="+key;
+//    }
+//    $(function(){
+//        var sd = "{:I('get.searchType','message_id')}";
+//        $("#searchType").easyDropDown('select',sd.toString());
+//    })
+
+    $(function(){
+        var cid = "{$_GET['cid']}";
+        $("#searchType").easyDropDown('select',cid.toString());
+        $("#searchType").bind('change', function() {
+            window.location=search_url+"&cid="+$("#searchType").val();
+        });
+    })
+</script>
+<div class="list_box">
+    <div class="sheader">
+        <h3>{:C('CONTROL_MENU')}<a href="{:U('Admin/System/feedback')}">信息反馈管理</a></h3>
+        <div class="act">
+            <table>
+                <tr>
+                    <td><font style="color:#939393;">过滤查询：</font></td>
+                    <td><select name="searchType" id="searchType" class="dropdown">
+                        <option value="" selected>所有反馈</option>
+                        <option value="0">未处理反馈</option>
+                        <option value="1">已处理反馈</option></select></td>
+                </tr>
+            </table>
+        </div>
+        <div class="hr"></div>
+    </div>
+    <table class="list" border="0" cellpadding="0" cellspacing="0">
+        <thead>
+        <tr>
+            <td style="width:150px;">反馈人信息</td>
+            <td style="width:300px;">反馈内容</td>
+            <td style="width:100px;">反馈日期</td>
+            <td style="width:70px;">处理状态</td>
+            <td>操作</td>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="list" id="m">
+            <tr>
+                <td><eq name="m.nickname" value="$m.phone">
+                    {$m.nickname}
+                    <else/>
+                    {$m.nickname}&nbsp;&nbsp;{$m.phone}
+                </eq>{$m.store_name}</td>
+                <td>{$m.contents}</td>
+                <td>{$m.addtime}</td>
+                <td><eq name="m.is_check" value="0">
+                    <a href="javascript:showYesOrNo('确定已解决反馈问题？','{:U('System/feedbackCheck?message_id='.$m['message_id'])}');" style="color:#8b0000;">处理</a>
+                    <else/>
+                    <font color="#006400">已处理</font>
+                    </eq>
+                </td>
+                <td>
+                    <a href="javascript:showYesOrNo('您确定删除吗？','{:U('System/feedbackDel?message_id='.$m['message_id'])}');">删除</a>
+                </td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+    <div class="hr"></div>
+    <div class="page">{$Page}</div>
+</div>
+<include file="./APP/Admin/View/Common/Public_footer.html"/>

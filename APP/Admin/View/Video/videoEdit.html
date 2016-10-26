@@ -1,0 +1,253 @@
+<include file="./APP/Admin/View/Common/Public_header_v1.html"/>
+<script type="text/javascript" src="__PUBLIC__/static/bt.typeahead/bootstrap3-typeahead.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/ueditor1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/ueditor1.4.3/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/ueditor1.4.3/lang/zh-cn/zh-cn.js"></script>
+<style type="text/css">
+    .form-horizontal{width:850px;}
+    .form-horizontal>.form-group{border-top: 1px solid #ccc;padding-top:20px;margin-left:15px;margin-right:0px;}
+    .form-horizontal>.form-group:first-child{border-top:none;}
+    .form-group>.col-sm-2{width: 110px;}
+    .form-group>.col-sm-10{width: 700px;}
+    select.form-control{width: auto !important;}
+</style>
+<ol class="breadcrumb">
+    <li>{:C('CONTROL_MENU')}</li>
+    <li>视频设置</li>
+    <li class="active"><a href="{:U('Admin/Video/videoList')}"> 视频列表</a></li>
+    <li>编辑视频</li>
+</ol>
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active"><a href="javascript:void(0);">编辑视频</a></li>
+</ul>
+<form action="{:U('Admin/Video/videoEdit')}" class="form-horizontal" method="post">
+    <div class="form-group">
+        <label for="father_id" class="col-sm-2 control-label">视频类型</label>
+        <div class="col-sm-2">
+            <select name="father_id" id="father_id" class="form-control">
+                <option value="9999">请选择</option>
+                <volist name="typeList" id="vo">
+                    <option value="{$vo['class_id']}"<eq name="vo.class_id" value="$video['father_id']">selected="selected"</eq>>{$vo.class_name}</option>
+                </volist>
+            </select>
+        </div>
+        <div class="col-sm-5">
+            <select name="class_id" id="class_id" class="form-control" datatype="*|select" nullmsg="请选择视频类型">
+                <option value="">请选择</option>
+            </select>
+            <div class="Validform_checktip"></div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="tea_name" class="col-sm-2 control-label">讲师姓名</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="text" value="{$video.tea_name}" id="tea_name" autocomplete="off" name="tea_name" data-provide="typeahead" datatype="s" nullmsg="请输入讲师姓名" errormsg="请填写正确的讲师姓名"/>
+            <div for="tea_name" class="Validform_checktip">搜索结果出来后，请点击对应的选项</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="video_title" class="col-sm-2 control-label">视频标题</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="text" value="{$video.vi_title}" id="video_title" name="vi_title" datatype="*" nullmsg="请输入视频名称！" errormsg="由中文、字母、数字、下划线、空格组成！！" />
+            <div class="Validform_checktip">由中文、字母、数字、下划线、空格组成！！</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="link" class="col-sm-2 control-label">视频链接</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="text" value="{$video.vi_link}" id="link" name="vi_link" datatype="/^http://[^\s]+/" nullmsg="请输入视频链接！" errormsg="请输入正确的URL" />
+            <div class="Validform_checktip">视频链接地址，以http://开头</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="long" class="col-sm-2 control-label">视频时长</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="text" value="{$video.vi_long}" id="long" name="vi_long" datatype="/^([0-9]?[0-9]):([0-5][0-9])$/" nullmsg="请输入视频时长！" errormsg="时间格式不正确，应为mm:ss"/>
+            <div class="Validform_checktip">时间格式为mm:ss</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">缩略图</label>
+        <div class="col-sm-10">
+            <img id="show_logo" width="300px" height="150px" src=".{$video.vi_img}">
+        </div>
+        <div class="clearfix"></div>
+        <label class="col-sm-2 control-label"></label>
+        <div class="col-sm-10">
+            <input type="button" onclick="upImage()"  class="btn btn-info" value="上传logo"/>
+            <input type="hidden" name="vi_img" id="head_img" value="{$video.vi_img}"  datatype="*" nullmsg="请设置缩略图！"/>
+            <div class="Validform_checktip">支持jpg、gif、png、jpeg(4种格式)，大小不超过1M</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">视频简介</label>
+        <div class="col-sm-10">
+            <textarea id="videoDes" name="vi_des" class="form-control" datatype="*" nullmsg="请填写视频简介内容！" errormsg="请填写简介内容！">{$video.vi_des}</textarea>
+            <div class="Validform_checktip"></div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">视频笔记</label>
+        <div class="col-sm-10" class="form-control">
+            <script name="vi_notes" type="text/plain" id="editor"></script>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">保存编辑</button>
+        </div>
+    </div>
+    <input type="text" id="tea_id" name="tea_id" value="{$video.tea_id}" style="display: none;">
+    <input style="display: none;" value='{$video.vi_notes}' id="notes">
+    <input style="display: none;" value='{$video.vi_id}' name="vi_id">
+    <input style="display: none;" value='{$video.class_id}' id="c_id">
+</form>
+<link href="__PUBLIC__/static/Validform/css/style.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="__PUBLIC__/static/Validform/Validform_v5.3.2_min.js"></script>
+
+<script type="text/javascript" language="javascript">
+    var content = document.getElementById("notes").value;
+    var ue = {
+        initialContent:content
+    };
+    UE.getEditor('editor',ue);
+
+    $('#father_id').change(function(){
+        var objectModel = {};
+        var value = $(this).val();
+        var type = $(this).attr('id');
+        objectModel[type] =value;
+        $.ajax({
+            cache:false,
+            type:"POST",
+            url:"{:U('Admin/Video/childTypeList')}",
+            dataType:"json",
+            data:objectModel,
+            success:function(data){
+                $("#class_id").empty();
+                var count = data.length;
+                var i = 0;
+                var b="";
+                for(i=0;i<count;i++){
+                    b+="<option value='"+data[i].class_id+"'>"+data[i].class_name+"</option>";
+                }
+                $("#class_id").append(b);
+            }
+        });
+    });
+
+    $.extend($.Datatype,{
+        "z2-4" : /^[\u4E00-\u9FA5\uf900-\ufa2d]{2,4}$/
+    });
+    $(function(){
+        $(".form-horizontal").Validform({
+            tiptype:function(msg,o,cssctl){
+                if(!o.obj.is("form")){
+                    var objtip=o.obj.nextAll(".Validform_checktip");
+                    cssctl(objtip,o.type);
+                    objtip.text(msg);
+                }
+            },
+            beforeCheck:function(curform){
+                if(!confirm('确定提交本次操作吗？'))
+                {
+                    return false;
+                }
+            }
+        });
+
+        var objectModel = {};
+        var value = $('#father_id').val();
+        var type = $('#father_id').attr('id');
+        var c_id = $('#c_id').val();
+        objectModel[type] =value;
+        $.ajax({
+            cache:false,
+            type:"POST",
+            url:"{:U('Admin/Video/childTypeList')}",
+            dataType:"json",
+            data:objectModel,
+            success:function(data){
+                $("#class_id").empty();
+                var count = data.length;
+                var i = 0;
+                var b="";
+                for(i=0;i<count;i++){
+                    if(data[i].class_id == c_id)
+                    {
+                        b+="<option value='"+data[i].class_id+"' selected = 'selected'>"+data[i].class_name+"</option>";
+                    }
+                    else
+                    {
+                        b+="<option value='"+data[i].class_id+"'>"+data[i].class_name+"</option>";
+                    }
+                }
+                $("#class_id").append(b);
+            }
+        });
+
+    });
+
+    //重新实例化一个编辑器，防止在上面的editor编辑器中显示上传的图片或者文件
+    var _editor = UE.getEditor('myEditor');
+    _editor.ready(function () {
+        //设置编辑器不可用
+        //_editor.setDisabled();
+        //隐藏编辑器，因为不会用到这个编辑器实例，所以要隐藏
+        _editor.hide();
+        //侦听图片上传
+        _editor.addListener('beforeInsertImage', function (t, arg) {
+            //将地址赋值给相应的input
+            $("#head_img").attr("value", arg[0].src);
+            //图片预览
+            $("#show_logo").attr("src", arg[0].src);
+        })
+    });
+    //弹出图片上传的对话框
+    function upImage() {
+        var myImage = _editor.getDialog("insertimage");
+        myImage.open();
+    }
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var teaID = {};
+        //搜索提示
+        $("#tea_name").typeahead({
+            source: function (query, process) {
+                $.ajax({
+                    url: "{:U('Admin/Video/teaList')}",
+                    type: 'GET',
+                    dataType: 'JSON',
+                    async: true,
+                    data: 'name=' + query,
+                    success: function (data) {
+                        var arr = [];
+                        for (var i in data) {
+                            teaID[data[i]['tea_name']]=data[i]['tea_id'];
+                            arr.push(data[i]['tea_name']);
+                        }
+                        process(arr);
+                    }
+                });
+            },
+            items: 10,
+            matcher: function (item) {
+                return true;
+            },
+            highlighter: function (item) {
+                var regex = new RegExp('(' + this.query + ')', 'gi');
+                return item.replace(regex, "<font color='#dc143c'>$1</font>");
+            },
+            showHintOnFocus: true,
+            afterSelect :function (item)
+            {
+                if(teaID[item] === 0) item ='';
+                $("#tea_name").val(item);
+                $("#tea_id").val(teaID[item]);
+            }
+        });
+    });
+</script>
+<script type="text/plain" id="myEditor"></script>
+<include file="./APP/Admin/View/Common/Public_footer_v1.html"/>

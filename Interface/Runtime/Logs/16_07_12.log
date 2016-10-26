@@ -1,0 +1,37 @@
+[ 2016-07-12T15:23:48+08:00 ] ::1 /dsy/interface.php/v1/index
+NOTIC: [2] mkdir(): File exists C:\wamp\www\DSY\ThinkPHP\Library\Think\Build.class.php 第 110 行.
+SQL: SHOW COLUMNS FROM `dsy_pub_city` [ RunTime:0.0308s ]
+
+[ 2016-07-12T15:24:03+08:00 ] ::1 /dsy/interface.php/v1/index/login
+SQL: SHOW COLUMNS FROM `dsy_student` [ RunTime:0.0067s ]
+SQL: SELECT `stu_id`,`stu_nickname`,`stu_sex`,`stu_creat_time`,`stu_head_img`,`class_id`,`stu_phone`,`stu_city`,`stu_profession` FROM `dsy_student` WHERE `stu_password` = 'd41d8cd98f00b204e9800998ecf8427e' AND `stu_user` = '' LIMIT 1   [ RunTime:0.0006s ]
+
+[ 2016-07-12T15:25:20+08:00 ] ::1 /dsy/interface.php/v1/index/login
+SQL: SHOW COLUMNS FROM `dsy_student` [ RunTime:0.0203s ]
+SQL: SELECT `stu_id`,`stu_nickname`,`stu_sex`,`stu_creat_time`,`stu_head_img`,`class_id`,`stu_phone`,`stu_city`,`stu_profession` FROM `dsy_student` WHERE `stu_password` = 'd41d8cd98f00b204e9800998ecf8427e' AND `stu_user` = '13662177912' LIMIT 1   [ RunTime:0.0005s ]
+
+[ 2016-07-12T15:25:58+08:00 ] ::1 /dsy/interface.php/v1/index/login
+SQL: SHOW COLUMNS FROM `dsy_student` [ RunTime:0.3431s ]
+SQL: SELECT `stu_id`,`stu_nickname`,`stu_sex`,`stu_creat_time`,`stu_head_img`,`class_id`,`stu_phone`,`stu_city`,`stu_profession` FROM `dsy_student` WHERE `stu_password` = 'd41d8cd98f00b204e9800998ecf8427e' AND `stu_user` = '13662177912' LIMIT 1   [ RunTime:0.0006s ]
+
+[ 2016-07-12T15:26:38+08:00 ] ::1 /dsy/interface.php/v1/index/login
+SQL: SHOW COLUMNS FROM `dsy_student` [ RunTime:0.0077s ]
+SQL: SELECT `stu_id`,`stu_nickname`,`stu_sex`,`stu_creat_time`,`stu_head_img`,`class_id`,`stu_phone`,`stu_city`,`stu_profession` FROM `dsy_student` WHERE `stu_password` = 'e10adc3949ba59abbe56e057f20f883e' AND `stu_user` = '13662177912' LIMIT 1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: from C:\wamp\www\DSY\Interface\V1\Controller\IndexController.class.php 第 60 行.
+SQL: UPDATE `dsy_student` SET `from`=NULL,`last_login_time`='2016-07-12 15:26:38',`last_login_ip`='0.0.0.0',`last_location`='IANA保留地址' WHERE ( stu_id=10004 ) [ RunTime:0.0558s ]
+
+[ 2016-07-12T15:27:18+08:00 ] ::1 /dsy/interface.php/v1/index/login
+SQL: SHOW COLUMNS FROM `dsy_student` [ RunTime:0.1388s ]
+SQL: SELECT `stu_id`,`stu_nickname`,`stu_sex`,`stu_creat_time`,`stu_head_img`,`class_id`,`stu_phone`,`stu_city`,`stu_profession` FROM `dsy_student` WHERE `stu_password` = 'e10adc3949ba59abbe56e057f20f883e' AND `stu_user` = '13662177912' LIMIT 1   [ RunTime:0.0006s ]
+NOTIC: [8] Undefined variable: from C:\wamp\www\DSY\Interface\V1\Controller\IndexController.class.php 第 60 行.
+SQL: UPDATE `dsy_student` SET `from`=NULL,`last_login_time`='2016-07-12 15:27:18',`last_login_ip`='0.0.0.0',`last_location`='IANA保留地址' WHERE ( stu_id=10004 ) [ RunTime:0.0005s ]
+
+[ 2016-07-12T15:29:47+08:00 ] ::1 /dsy/interface.php/v1/index/login
+SQL: SHOW COLUMNS FROM `dsy_student` [ RunTime:0.0067s ]
+SQL: SELECT `stu_id`,`stu_nickname`,`stu_sex`,`stu_creat_time`,`stu_head_img`,`class_id`,`stu_phone`,`stu_city`,`stu_profession` FROM `dsy_student` WHERE `stu_password` = 'e10adc3949ba59abbe56e057f20f883e' AND `stu_user` = '13662177912' LIMIT 1   [ RunTime:0.0004s ]
+NOTIC: [8] Undefined variable: from C:\wamp\www\DSY\Interface\V1\Controller\IndexController.class.php 第 60 行.
+SQL: UPDATE `dsy_student` SET `from`=NULL,`last_login_time`='2016-07-12 15:29:47',`last_login_ip`='0.0.0.0',`last_location`='IANA保留地址' WHERE ( stu_id=10004 ) [ RunTime:0.0005s ]
+
+[ 2016-07-12T15:35:23+08:00 ] ::1 /dsy/interface.php/v1/index/index
+SQL: SHOW COLUMNS FROM `dsy_pub_city` [ RunTime:0.0899s ]
+

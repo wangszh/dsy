@@ -1,0 +1,129 @@
+<include file="./APP/Admin/View/Common/Public_header_v1.html"/>
+<ol class="breadcrumb">
+    <li>{:C('CONTROL_MENU')}</li>
+    <li>系统设置</li>
+    <li class="active"><a href="{:U('Admin/Auth/accessList')}"> 数据备份</a></li>
+</ol>
+<div class="btn-group" role="group">
+    <button id="export" type="button" class="btn btn-warning">立即备份</button>
+    <a id="optimize" class="btn btn-info" href="{:U('Admin/Databasce/optimize')}">优化表</a>
+    <a id="repair" class="btn btn-success" href="{:U('Admin/Databasce/repair')}">修复表</a>
+</div>
+<form id="export-form" method="post" action="{:U('export')}">
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th><input class="check-all" checked="chedked" type="checkbox" value=""></th>
+            <th>表名</th>
+            <th>数据量</th>
+            <th>数据大小</th>
+            <th>碎片</th>
+            <th>创建时间</th>
+            <th>备份状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="list" id="table">
+            <tr>
+                <td><input class="ids" checked="chedked" type="checkbox" name="tables[]" value="{$table.name}"></td>
+                <td>{$table.name}</td>
+                <td>{$table.rows}</td>
+                <td>{$table.data_length|format_bytes}</td>
+                <td>{$table.data_free|ChangeSize}</td>
+                <td>{$table.create_time}</td>
+                <td class="backStatus">未备份</td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <a class="btn btn-info" href="{:U('optimize?tables='.$table['name'])}">优化表</a>
+                        <a class="btn btn-success" href="{:U('repair?tables='.$table['name'])}">修复表</a>
+                    </div>
+                </td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+</div>
+</form>
+<script type="text/javascript">
+    $(function () {
+        //全选的实现
+        $(".check-all").click(function () {
+            $(".ids").prop("checked", this.checked);
+        });
+        $(".ids").click(function () {
+            var option = $(".ids");
+            option.each(function (i) {
+                if (!this.checked) {
+                    $(".check-all").prop("checked", false);
+                    return false;
+                } else {
+                    $(".check-all").prop("checked", true);
+                }
+            });
+        });
+    });
+
+    (function($){
+        var $form = $("#export-form"), $export = $("#export"), tables, $optimize = $("#optimize"), $repair = $("#repair");
+
+        $optimize.add($repair).click(function(){
+            $.post(this.href, $form.serialize(), function(data){
+                if(data.status){
+                    alert(data.info);
+                } else {
+                    alert(data.info);
+                }
+            }, "json");
+            return false;
+        });
+
+        $export.click(function(){
+            $export.parent().children().addClass("disabled");
+            $export.html("正在发送备份请求...");
+            $.post(
+                $form.attr("action"),
+                $form.serialize(),
+                function(data){
+                    if(data.status){
+                        tables = data.tables;
+                        $export.html(data.info + "开始备份，请不要关闭本页面！");
+                        backup(data.tab);
+                        window.onbeforeunload = function(){ return "正在备份数据库，请不要关闭！" }
+                    } else {
+                        alert(data.info);
+                        $export.parent().children().removeClass("disabled");
+                        $export.html("立即备份");
+                    }
+                }, "json");
+            return false;
+        });
+
+        function backup(tab, status){
+            status && show_msg(tab.id, "开始备份...(0%)");
+            $.get($form.attr("action"), tab, function(data){
+                if(data.status){
+                    show_msg(tab.id, data.info);
+                    if(!$.isPlainObject(data.tab)){
+                        $export.parent().children().removeClass("disabled");
+                        $export.html("备份完成，点击重新备份");
+                        window.onbeforeunload = function(){ return null }
+                        return;
+                    }
+                    backup(data.tab, tab.id != data.tab.id);
+                } else {
+                    alert(data.info);
+                    $export.parent().children().removeClass("disabled");
+                    $export.html("立即备份");
+                }
+            }, "json");
+
+        }
+
+        function show_msg(id, msg){
+            $form.find("input[value=" + tables[id] + "]").closest("tr").find(".backStatus").html(msg);
+        }
+    })(jQuery);
+</script>
+<include file="./APP/Admin/View/Common/Public_footer_v1.html"/>

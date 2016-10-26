@@ -1,0 +1,177 @@
+<include file="./APP/Admin/View/Common/Public_header_v1.html"/>
+<script src="__PUBLIC__/static/Highcharts-4.0.3/highcharts.js"></script>
+<script src="__PUBLIC__/static/Highcharts-4.0.3/modules/exporting.js"></script>
+<style type="text/css">
+
+     .bar {border:1px solid #999999; background:#FFFFFF;font-size:2px; width:89%; margin:2px 0 5px 0;padding:1px;overflow: hidden;}
+     .bar_1 {border:1px dotted #999999; background:#FFFFFF; font-size:2px; width:89%; margin:2px 0 5px 0;padding:1px;overflow: hidden;}
+     .barli_red{background:#ff6600; height:5px; margin:0px; padding:0;}
+     .barli_blue{background:#0099FF; height:5px; margin:0px; padding:0;}
+     .barli_green{background:#36b52a; height:5px; margin:0px; padding:0;}
+     .barli_1{background:#999999; height:5px; margin:0px; padding:0;}
+     .barli{background:#36b52a; height:5px; margin:0px; padding:0;}
+
+</style>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <i class="glyphicon glyphicon-home" style="color:#696969;"></i>&nbsp;&nbsp;&nbsp;您好，<b>{$info.user_name}</b> [{$info.remark}]
+            &nbsp;&nbsp;&nbsp;&nbsp;登录IP：{$info.last_login_ip}&nbsp;&nbsp;&nbsp;&nbsp;时间：{$info.last_login_time}&nbsp;&nbsp;&nbsp;&nbsp;
+            位置：{$info.last_location}&nbsp;&nbsp;&nbsp;&nbsp;时区：{$system.timezone}
+    </div>
+</div>
+<div class="panel panel-primary">
+    <div class="panel-heading"><i class="glyphicon glyphicon-bell"></i> 待办事项</div>
+    <div class="panel-body">
+        <div class="col-xs-6">
+            ** 管理员待处理项<br>
+            移车贴申请：<a href="{:U('Admin/User/cardList')}">{$todo_info.ms_noNum}</a> 个，
+            反馈信息：<a href="{:U('Admin/System/feedback')}">{$todo_info.fb_noNum}</a> 条，
+            车主资料更换申请：<a href="{:U('Admin/User/CarRequestList')}">{$todo_info.mcr_noNum}</a> 位<br>
+            <br>** 财务部待处理项<br>车行取现申请：<a href="{:U('Admin/BillManage/storeApplication')}">{$todo_info.sb_noNum}</a> 个<br>
+        </div>
+        <div class="col-xs-6">
+            ** 平台用户<br>
+            苹果(IOS)车主：<a href="{:U('Admin/User/ownerList?searchType=from&searchkey=ios')}">{$owner_count.ownerIosNum}</a> 个，
+            安卓(Android)车主：<a href="{:U('Admin/User/ownerList?searchType=from&searchkey=android')}">{$owner_count.ownerAndroidNum}</a> 个 <br/>
+            绑定车越汇统计人数：<a href="{:U('Admin/User/ownerList?BindStore=0')}">{$owner_count.owner_bind_sys}</a> 位，
+            未绑定车行统计人数：<a href="{:U('Admin/User/ownerList?BindStore=-1')}">{$owner_count.owner_bind_null}</a> 位 <br/>
+            行驶证待上传：<a href="{:U('Admin/User/ownerList?licenseStatus=98')}">{$todo_info.carnoupNum}</a> 个，
+            行驶证待审核：<a href="{:U('Admin/User/ownerList?licenseStatus=99')}">{$todo_info.carnocheckNum}</a> 个，
+            行驶证已审核：<a href="{:U('Admin/User/ownerList?licenseStatus=1')}">{$todo_info.carcheckpassNum}</a> 个，
+            行驶证已驳回：<a href="{:U('Admin/User/ownerList?licenseStatus=0')}">{$todo_info.carcheckfailNum}</a> 个
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="panel panel-success">
+            <div class="panel-heading"><i class="glyphicon glyphicon-user"></i> 会员(车主)信息&nbsp;&nbsp;<span>共{$owner_count.ownernum}位,已审{$owner_count.ownerok}位,未审：{$owner_count.ownerno}位</span></div>
+            <div class="panel-body" style="height:300px;overflow-y: scroll;">
+                <ul id="owner_info" class="list-group"><li class="list-group-item">&nbsp;</li><li class="list-group-item">&nbsp;</li><li class="list-group-item">&nbsp;</li></ul>
+            </div>
+            <div class="panel-footer"><img src="__PUBLIC__/loading.gif" id="img_owner_info" style="vertical-align: middle;"><span id="owner_info_footer"></span></div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-success">
+            <div class="panel-heading"><i class="glyphicon glyphicon-list"></i> 车行信息&nbsp;&nbsp;<span>正常运营{$store_info.count0}家,关闭{$store_info.count1}家</span></div>
+            <div class="panel-body" style="height:300px;overflow-y: scroll;">
+                <ul id="store_info" class="list-group"><li class="list-group-item">&nbsp;</li><li class="list-group-item">&nbsp;</li><li class="list-group-item">&nbsp;</li></ul>
+            </div>
+            <div class="panel-footer"><img src="__PUBLIC__/loading.gif" id="img_store_info" style="vertical-align: middle;"><span id="store_info_footer"></span></div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading" style="height:55px;line-height:35px;">
+        <i class="glyphicon glyphicon-align-left"> 账单记录</i>
+        <div class="form-inline pull-right">
+            <div class="form-group">
+                <select id="bill_Select" class="form-control" onchange="Bill_info()">
+                    <option value="chk">已审核</option>
+                    <option value="sub">已提交</option>
+                    <option value="use">已使用</option>
+                    <option value="yy">已预约</option>
+                </select>
+            </div>
+            <a href="javascript:Bill_info();" class="btn btn-info">
+                <i class="glyphicon glyphicon-refresh"></i>
+                更新
+            </a>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="box-content" id="chart_line">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="panel panel-success">
+            <div class="panel-heading" style="height:55px;line-height:35px;"><i class="glyphicon glyphicon-cog"></i> 网络使用状况</div>
+            <div class="panel-body">
+                <neq name="net_state" value="">
+                    {$net_state}
+                    <else/>
+                    无法获取当前服务器网络使用信息
+                </neq>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-success">
+            <div class="panel-heading" style="height:55px;line-height:35px;">
+                <i class="glyphicon glyphicon-dashboard"></i> 油价接口
+                <div class="form-inline pull-right">
+                    <img src="__PUBLIC__/loading.gif" id="img_oil" style="vertical-align: middle;display: none;">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" id="oil_value" class="form-control" placeholder="请输入城市" aria-describedby="basic-addon-oil">
+                            <a href="javascript:search_oil();" class="input-group-addon" id="basic-addon-oil"><i class="glyphicon glyphicon-search"></i></a>
+                        </div>
+                    </div>
+
+                    <a href="javascript:upApi();" class="btn btn-info">
+                        <i class="glyphicon glyphicon-refresh"></i>
+                        更新
+                    </a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <table width="80%">
+                    <tr><td><label>上次更新时间：<font id="api_last_time">checking data</font>&nbsp;&nbsp;&nbsp;&nbsp;<font id="btn_upApi"></font></label></td>
+                        <td align="right"><p id="s_oil_content"></p></td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="panel panel-danger">
+            <div class="panel-heading"><i class="glyphicon glyphicon-flash"></i> 系统信息</div>
+            <div class="panel-body">
+                管理员个数：{$info.num}<br>
+                服务器域名/IP地址：{$_SERVER['SERVER_NAME']}(<if condition="DIRECTORY_SEPARATOR eq '/'">{$_SERVER['SERVER_ADDR']}<else/>{:@gethostbyname($_SERVER['SERVER_NAME'])}</if>) <br />
+                服务器标识：<if condition="$sysinfo['win_n'] neq ''">{$sysinfo.win_n}<else/>{:@php_uname()}</if> <br />
+                服务器操作系统：{$os.0} &nbsp;内核版本：<if condition="DIRECTORY_SEPARATOR eq '/'">{$os.2}<else/>{$os.1}</if><br />
+                服务器解译引擎：{$_SERVER['SERVER_SOFTWARE']} <br />
+                服务器语言：{:getenv("HTTP_ACCEPT_LANGUAGE")} <br />
+                服务器端口：{$_SERVER['SERVER_PORT']} <br />
+                服务器主机名：<if condition="DIRECTORY_SEPARATOR eq '/'">{$os.1}<else/>{$os.2}</if> <br />
+                管理员邮箱：{$_SERVER['SERVER_ADMIN']} <br />
+                绝对路径：{:SITE_DIR} <br />
+                上传文件最大限制（upload_max_filesize）：{:get_cfg_var('upload_max_filesize')} <br />
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-danger">
+            <div class="panel-heading"><i class="glyphicon glyphicon-flash"></i> 服务器实时数据</div>
+            <div class="panel-body">
+                <eq name="sysinfo.sysReShow" value="show">
+                    服务器当前时间：<span>{$sysinfo.stime}</span> <br />
+                    服务器已运行时间：<span>{$sysinfo.uptime}</span> <br />
+                    总空间：{$sysinfo.DiskTotal}&nbsp;GB &nbsp;&nbsp;&nbsp;&nbsp;<span title="显示的是网站所在的目录的可用空间，非服务器上所有磁盘之可用空间！">可用空间</span>： <font color='#CC0000'><span>{$sysinfo.freeSpace}</span></font>&nbsp;GB<br />
+                    CPU型号 [{$sysinfo.cpu.num}核]：{$sysinfo.cpu.model} <br />
+                    内存使用状况：物理内存：共<font color='#CC0000'>{$sysinfo.TotalMemory}</font>, 已用<font color='#CC0000'><span>{$sysinfo.UsedMemory}</span></font>, 空闲<font color='#CC0000'><span>{$sysinfo.FreeMemory}</span></font>, 使用率<span>{$sysinfo.memPercent}</span> <br />
+                    <div class="bar"><div class="barli_green" style="width:{$sysinfo.memPercent}">&nbsp;</div> </div>
+                    <if condition="$sysinfo['CachedMemory'] gt 0">
+                        Cache化内存为 <span>{$sysinfo.CachedMemory}</span>, 使用率<span>{$sysinfo.memCachedPercent}</span> %	| Buffers缓冲为  <span>{$sysinfo.Buffers}</span>
+                        <div class="bar"><div class="barli_blue" style="width:{$sysinfo.barmemCachedPercent}">&nbsp;</div></div>
+                        真实内存使用 <span>{$sysinfo.memRealUsed}</span>, 真实内存空闲<span>{$sysinfo.memRealFree}</span>, 使用率<span>{$sysinfo.memRealPercent}</span> %
+                        <div class="bar_1"><div class="barli_1" style="width:{$sysinfo.barmemRealPercent}">&nbsp;</div></div>
+                    </if>
+                    <if condition="$sysinfo['TotalSwap'] gt 0">
+                        SWAP区：共{$sysinfo.TotalSwap}, 已使用<span>{$sysinfo.swapUsed}</span>, 空闲<span>{$sysinfo.swapFree}</span>, 使用率<span>{$sysinfo.swapPercent}</span> %
+                        <div class="bar"><div class="barli_red" style="width:{$sysinfo.barswapPercent}">&nbsp;</div> </div>
+                    </if>
+                    系统平均负载：<span>{$sysinfo.loadAvg}</span>
+                    <else/>
+                    无法获取当前服务器实时数据
+                </eq>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="./APP/Admin/View/Common/Public_footer_v1.html"/>

@@ -1,0 +1,138 @@
+<include file="./APP/Admin/View/Common/Public_header_v1.html"/>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/ueditor1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/ueditor1.4.3/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/static/ueditor1.4.3/lang/zh-cn/zh-cn.js"></script>
+
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/bt.datepicker/daterangepicker-bs3.css" />
+<script type="text/javascript" src="__PUBLIC__/static/bt.datepicker/moment.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/bt.datepicker/daterangepicker.js"></script>
+<style>
+    .form-horizontal{width:850px;}
+    .form-horizontal>.form-group{border-top: 1px solid #ccc;padding-top:20px;margin-left:15px;margin-right:0px;}
+    .form-horizontal>.form-group:first-child{border-top:none;}
+    .form-group>.col-sm-2{width: 110px;}
+    .form-group>.col-sm-10{width: 700px;}
+    .noHand{cursor: not-allowed;}
+    select.form-control{width: auto !important;}
+</style>
+<ol class="breadcrumb">
+    <li>{:C('CONTROL_MENU')}</li>
+    <li>广告设置</li>
+    <li class="active"><a href="{:U('Admin/Adv/advList')}"> 广告列表</a></li>
+    <li>快速添加广告</li>
+</ol>
+<form class="form-horizontal" action="{:U('Admin/Adv/advAdd')}" method="post">
+    <div class="form-group">
+        <label for="title" class="col-sm-2 control-label">标题：</label>
+        <div class="col-sm-8">
+            <input type="text" name="title" class="form-control" id="title" datatype="*1-30" nullmsg="请输入广告标题！" errormsg="长度30个字以内" value="" />
+            <div class="Validform_checktip">请输入30字以内的广告标题</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="title" class="col-sm-2 control-label">描述：</label>
+        <div class="col-sm-8">
+            <input type="text" name="des" class="form-control" id="des" datatype="*1-100" nullmsg="请输入描述！" errormsg="长度100个字以内" value="" ignore="ignore"/>
+            <div class="Validform_checktip">(投放找软件时请设置) 请输入100字以内的描述</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">缩略图</label>
+        <div class="col-sm-10">
+            <img id="show_logo" width="300px" height="150px" src="./Public/nopic.png" />
+        </div>
+        <div class="clearfix"></div>
+        <label class="col-sm-2 control-label"></label>
+        <div class="col-sm-10">
+            <input type="button" onclick="upImage()"  class="btn btn-info" value="上传logo"/>
+            <input type="hidden" name="logo" id="adv_logo" value=""  datatype="*" nullmsg="请设置缩略图！"/>
+            <div class="Validform_checktip">支持jpg、gif、png、jpeg(4种格式)，大小不超过1M</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputDate" class="col-sm-2 control-label">投放周期：</label>
+        <div class="col-sm-8">
+            <input type="text" readonly name="inputDate" id="inputDate" class="form-control noHand" value="" />
+            <div class="Validform_checktip">有效期从 0点 到  0点结束</div>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#inputDate').daterangepicker({separator:' 到 '}, function(start, end, label) {
+                    var vTsplit = $('#inputDate').val();
+                    var dateArr = vTsplit.split(' 到 ');
+                    $('#inputDate').next().text('有效期从'+dateArr[0]+' 0点 到 '+dateArr[1]+' 0点结束');
+                });
+            });
+        </script>
+    </div>
+    <div class="form-group">
+        <label for="inputUrl" class="col-sm-2 control-label">外链地址：</label>
+        <div class="col-sm-8">
+            <input type="text" name="url" class="form-control" id="inputUrl" placeholder="例如：http://www.baidu.com" datatype="url" nullmsg="请输入外链地址！" errormsg="请输入有效的URL" value="" />
+            <div class="Validform_checktip">外链地址：以http://开头</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputType" class="col-sm-2 control-label">投放位置：</label>
+        <div class="col-sm-8">
+            <select name="type" id="inputType" class="form-control">
+                <option value="start">启动页</option>
+                <option value="home">主页</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">保存发布</button>
+        </div>
+    </div>
+</form>
+<link href="__PUBLIC__/static/Validform/css/style.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="__PUBLIC__/static/Validform/Validform_v5.3.2_min.js?t=20150112"></script>
+<script type="text/javascript" language="javascript">
+    $(function(){
+
+        $(".form-horizontal").Validform({
+            tiptype:function(msg,o,cssctl){
+                if(!o.obj.is("form")){
+                    var objtip=o.obj.next(".Validform_checktip");
+                    cssctl(objtip,o.type);
+                    objtip.text(msg);
+                }
+            },
+            beforeCheck:function(curform){
+                if(!confirm('确定提交本次操作吗？'))
+                {
+                    return false;
+                }
+            },
+            beforeSubmit:function(curform){
+                //在验证成功后，表单提交前执行的函数，curform参数是当前表单对象。
+                //这里明确return false的话表单将不会提交;
+            }
+        });
+    });
+
+    //重新实例化一个编辑器，防止在上面的editor编辑器中显示上传的图片或者文件
+    var _editor = UE.getEditor('myEditor');
+    _editor.ready(function () {
+        //设置编辑器不可用
+        //_editor.setDisabled();
+        //隐藏编辑器，因为不会用到这个编辑器实例，所以要隐藏
+        _editor.hide();
+        //侦听图片上传
+        _editor.addListener('beforeInsertImage', function (t, arg) {
+            //将地址赋值给相应的input
+            $("#adv_logo").attr("value", arg[0].src);
+            //图片预览
+            $("#show_logo").attr("src", arg[0].src);
+        })
+    });
+    //弹出图片上传的对话框
+    function upImage() {
+        var myImage = _editor.getDialog("insertimage");
+        myImage.open();
+    }
+</script>
+<script type="text/plain" id="myEditor"></script>
+<include file="./APP/Admin/View/Common/Public_footer_v1.html"/>

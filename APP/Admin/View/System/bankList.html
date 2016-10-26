@@ -1,0 +1,82 @@
+<include file="./APP/Admin/View/Common/Public_header.html" xmlns="http://www.w3.org/1999/html"/>
+
+<link rel="stylesheet" href="__PUBLIC__/static/bootstrap3/css/bootstrap.min.css" />
+<script src="__PUBLIC__/static/bootstrap3/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    var search_url="{:U('Admin/System/modulesList')}";
+    function search(){
+        var sd = $("#searchType option:selected");
+        var key = $("#searchkey").val();
+        if(key.length==0)
+        {
+            window.location=search_url;
+            return false;
+        }else  window.location=search_url+"&searchType="+sd.val()+"&searchkey="+key;
+    }
+    $(function(){
+        var sd = "{$_GET['searchType']}";
+        $("#searchType").val(sd);
+    })
+</script>
+<style>
+    .shaixuan{width:120px; border:1px solid #cccccc; background:#fff; position:relative;}
+    .shaixuan .title{height:30px; line-height:30px; padding-left:7px;}
+    .shaixuan .jt{position:absolute; right:7px; top:7px;background: url('__PUBLIC_A__img/saixuan-jt.png');height:16px;width: 27px;}
+    .shaixuan ul{ position:absolute; background:#FFF; width:120px; top:31px; display:none;}
+    .shaixuan:hover ul{ display:block;}
+    .shaixuan ul{ -webkit-box-shadow: #666 0px 0px 5px; -moz-box-shadow: #666 0px 0px 5px; box-shadow: #666 0px 0px 5px;}
+    .shaixuan ul li{ line-height:35px;}
+    .shaixuan ul li a{ display:block; text-align:center; text-decoration:none; border-bottom:1px solid #CCCCCC; color:#000000;}
+    .shaixuan ul li a:hover{ background:#efefef;}
+</style>
+<div class="list_box">
+    <div class="sheader">
+        <h3>{:C('CONTROL_MENU')} <a href="{:U('Admin/System/bankList')}">银行管理</a></h3>
+        <div class="act">
+            <table>
+                <tr>
+                    <td><a href="{:U('Admin/System/bankAdd')}" class="button">添加银行</a></td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:#939393;">过滤查询:</font></td>
+                    <td>
+                        <select name="searchType" id="searchType" class="dropdown">
+                            <option value="bankName">银行名称</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" name="searchkey" id="searchkey" value="{$_GET['searchkey']}" class="px" />
+                        <input type="button" onclick="search()" value="搜索" class="myButton1"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="hr"></div>
+    </div>
+    <table class="list" border="0" cellpadding="0" cellspacing="0">
+        <thead>
+        <tr>
+            <td style="width:10%">序号</td>
+            <td style="width:60%">银行名称</td>
+            <td>操作</td>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="list" id="s">
+            <tr>
+                <td>{$s.bankId}</td>
+                <td>{$s.bankName}</td>
+                <td>
+                    <div class="btn-group btn-group-xs">
+                        <a class="btn btn-warning" href="{:U('Admin/System/bankEdit?bankId='.$s['bankId'])}">修改</a>
+                        <a class="btn btn-danger" href="{:U('Admin/System/bankDel?bankId='.$s['bankId'])}">删除</a>
+
+                    </div>
+                </td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+    <div class="hr"></div>
+    <div class="page">{$Page}</div>
+</div>
+<include file="./APP/Admin/View/Common/Public_footer.html"/>

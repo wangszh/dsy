@@ -1,0 +1,95 @@
+<include file="./APP/Admin/View/Common/Public_header.html"/>
+<style type="text/css">
+.button{ background:none; width:auto; padding:0 10px;}
+.active{ background:#CCC;}
+</style>
+<script type="text/javascript">
+    var search_url="{:U('Admin/System/upVersion')}";
+    function upAPP_IOS_VERSION_FINAL(){
+
+        var sd = $("#APP_IOS_VERSION_FINAL").val();
+        if(confirm('你确定把客户版本(IOS正式版)版本更新为'+sd)) window.location=search_url+"&ver=1&num="+sd;
+    }
+    function upAPP_IOS_VERSION_TEST(){
+        var sd = $("#APP_IOS_VERSION_TEST").val();
+        if(confirm('你确定把客户版本(IOS测试版)版本更新为'+sd))  window.location=search_url+"&ver=2&num="+sd;
+    }
+    function upAPP_ANDROID_VERSION()
+    {
+        var sd = $("#APP_ANDROID_VERSION").val();
+        if(confirm('你确定把客户版本(安卓)版本更新为'+sd))  window.location=search_url+"&ver=3&num="+sd;
+    }
+</script>
+<div class="list_box">
+<div class="sheader">
+    <h3>{:C('CONTROL_MENU')}系统设置</h3>
+    <div class="act">
+        <table>
+            <tr>
+                <td>
+                    客户端版本：
+                </td>
+                <td>
+                    <input type="text" name="APP_IOS_VERSION_FINAL" id="APP_IOS_VERSION_FINAL" value="" class="px" />
+                </td>
+                <td>
+                    <input type="button" onclick="upAPP_IOS_VERSION_FINAL()" value="客户版本(IOS正式版)" class="myButton1"/>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>
+                    <input type="text" name="APP_IOS_VERSION_TEST" id="APP_IOS_VERSION_TEST" value="" class="px" />
+                </td>
+                <td>
+                    <input type="button" onclick="upAPP_IOS_VERSION_TEST()" value="客户版本(IOS测试版)" class="myButton1"/>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>
+                    <input type="text" name="APP_ANDROID_VERSION" id="APP_ANDROID_VERSION" value="" class="px" />
+                </td>
+                <td>
+                    <input type="button" onclick="upAPP_ANDROID_VERSION()" value="客户版本(安卓)" class="myButton1"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <p class="tips">注意：版本号格式为主版本+点+次版本，版本号为精确到小数点后1位的浮点数</p>
+    <div class="hr"></div>
+</div>
+</div>
+<div class="my-property edit">
+	<div class="act">
+    	<a class="fl button ml10 <eq name="type" value="1">active</eq>" href="{:U('Admin/System/system?type=1')}">站点配置</a>
+        <a class="fl button ml10 <eq name="type" value="2">active</eq>" href="{:U('Admin/System/system?type=2')}">店铺配置(无用)</a>
+    	<a class="fl button ml10 <eq name="type" value="3">active</eq>" href="{:U('Admin/System/system?type=3')}">支付宝配置</a>
+        <a class="fl button ml10 <eq name="type" value="4">active</eq>" href="{:U('Admin/System/system?type=4')}">微信配置(无用)</a>
+        <a class="fl button ml10 <eq name="type" value="5">active</eq>" href="{:U('Admin/System/system?type=5')}">短信配置</a>
+        <a class="fl button ml10 <eq name="type" value="6">active</eq>" href="{:U('Admin/System/system?type=6')}">推送配置</a>
+        <a class="fl button ml10 <eq name="type" value="7">active</eq>" href="{:U('Admin/System/system?type=7')}">API配置</a>
+        <a class="fl button ml10 <eq name="type" value="8">active</eq>" href="{:U('Admin/System/system?type=8')}">图片配置</a>
+        <a class="fl button ml10 <eq name="type" value="0">active</eq>" href="{:U('Admin/System/system?type=0')}">其他配置</a>
+        <!--<a class="fr button2" href="{:U('Admin/System/systemInfo?type='.$type)}">添加配置项</a>-->
+        <div class="cb"></div>
+    </div>
+    <div class="hr"></div>
+
+    <div class="form">
+        <volist name="list" id="vo">
+        <!--字符串-->
+        <eq name="vo.config_value_type" value="1">
+        <div class="tiao">
+            <div class="title">{$vo.config_name}:</div>
+            <input type="text" name="{$vo.config_field}" value="{$vo.config_value}" style="width:30%"><span style="font-size:12px;">{$vo.config_field}</span>
+        </div>
+        </eq>
+        <!--开关-->
+        <eq name="vo.config_value_type" value="2">
+        <div class="tiao">
+            <div class="title">{$vo.config_name}:</div>
+            <input type="radio" value="1" name="{$vo.config_id}" <eq name="vo['config_value']" value="1">checked="checked"</eq>>是
+            <input type="radio" value="0" name="{$vo.config_id}" <eq name="vo['config_value']" value="0">checked="checked"</eq>>否
+        </div>
+        </eq>
+        </volist>
+    </div>
+</div>
+<include file="./APP/Admin/View/Common/Public_footer.html"/>

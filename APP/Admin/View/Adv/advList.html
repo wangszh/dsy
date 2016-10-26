@@ -1,0 +1,103 @@
+<include file="./APP/Admin/View/Common/Public_header_v1.html"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/bt.datepicker/daterangepicker-bs3.css" />
+<script type="text/javascript" src="__PUBLIC__/static/bt.datepicker/moment.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/bt.datepicker/daterangepicker.js"></script>
+<script type="text/javascript">
+    var search_url="{:U('Admin/Adv/advList')}";
+    function search(){
+        var advType = $("#advType").val();
+        var advTitle = $("#advTitle").val();
+        var startTime = $("#startTime").val();
+        var endTime = $("#endTime").val();
+        if (advType.length > 0)
+            search_url = search_url + "&advType="+advType;
+        if (advTitle.length > 0)
+            search_url = search_url + "&advTitle="+advTitle;
+        if (startTime.length > 0)
+            search_url = search_url + "&startTime="+startTime;
+        if (endTime.length > 0)
+            search_url = search_url + "&endTime="+endTime;
+
+        window.location=search_url;
+    }
+    $(function(){
+        var sd = "{:I('get.advType','all')}";
+        $("#advType").val(sd);
+        $("[data-toggle='popover']").popover();
+    })
+</script>
+<style type="text/css">
+    .popover-title{font-weight: 600 !important;}
+    .thumbnail .badge{position:absolute;z-index: 99;}
+</style>
+<ol class="breadcrumb">
+    <li>{:C('CONTROL_MENU')}</li>
+    <li>广告设置</li>
+    <li class="active"><a href="{:U('Admin/Adv/advList')}"> 广告列表</a></li>
+</ol>
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active"><a href="javascript:void(0);">广告管理</a></li>
+    <li><a href="{:U('Admin/Adv/advAdd')}">添加广告</a></li>
+</ul>
+<div class="tab-content">
+    <div class="form-inline" role="form">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <select name="advType" id="advType" class="form-control" data-live-search="false">
+                        <option value="all">全部</option>
+                        <option value="start">启动页</option>
+                        <option value="home">首页</option></select>
+                </div>
+            </div>
+        <div class="input-group">
+            <label class="input-group-addon" for="advTitle">广告标题：</label>
+            <input type="text" id="advTitle" name="advTitle" placeholder="" value="{$_GET['advTitle']}" class="form-control"/>
+        </div>
+        <div class="input-group">
+            <label class="input-group-addon" for="inputDate">投放日期：</label>
+            <input type="text" readonly name="inputDate" id="inputDate" class="form-control noHand" value="" />
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $('#inputDate').daterangepicker({separator:' 到 '}, function(start, end, label) {
+                        var vTsplit = $('#inputDate').val();
+                        var dateArr = vTsplit.split(' 到 ');
+                        $('#inputDate').next().text('有效期从'+dateArr[0]+' 0点 到 '+dateArr[1]+' 0点结束');
+                        $("#startTime").val(dateArr[0]);
+                        $("#endTime").val(dateArr[1]);
+                    });
+                });
+            </script>
+        </div>
+        <input type="text" readonly name="startTime" id="startTime" class="form-control noHand" value="" style="display: none;"/>
+        <input type="text" readonly name="endTime" id="endTime" class="form-control noHand" value="" style="display: none;"/>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#startTime').daterangepicker({singleDatePicker: true});
+                $('#endTime').daterangepicker({singleDatePicker: true});
+            });
+        </script>
+        <button type="button" onclick="search()" class="btn btn-primary">搜索</button>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <volist name="list" id="s">
+        <div class="col-md-2" data-toggle="popover" data-trigger="hover" data-placement="left" title="{$s.title}" data-content="{$s.des}">
+            <div class="thumbnail">
+                <span class="badge"><eq name="s.type" value="start">启动页<else/>主页</eq></span>
+                <a href="{$s.url}" target="_blank">
+                    <img src=".{$s.logo}" style="height: 180px; width: 100%; display: block;" title="广告图片" />
+                </a>
+                <div class="caption">
+                    <p>{$s.start_time} 到 {$s.end_time}</p>
+                    <div class="btn-group">
+                        <a class="btn btn-warning" href="{:U('Admin/Adv/advEdit?adv_id='.$s['adv_id'])}">修改</a>
+                        <a class="btn btn-danger" href="javascript:showYesOrNo('您确定删除吗？','{:U('Admin/Adv/advDel?adv_id='.$s['adv_id'])}');">删除</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </volist>
+</div>
+<div class="page">{$Page}</div>
+<include file="./APP/Admin/View/Common/Public_footer_v1.html"/>

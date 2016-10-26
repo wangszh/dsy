@@ -1,0 +1,104 @@
+<include file="./APP/Admin/View/Common/Public_header_v1.html"/>
+<script type="text/javascript">
+    var search_url="{:U('Admin/ActionLog/index')}";
+    function search(){
+        var sd = $("#searchType option:selected");
+        var key = $("#searchkey").val();
+        if(key.length==0)
+        {
+            window.location=search_url;
+            return false;
+        }else  window.location=search_url+"&searchType="+sd.val()+"&searchkey="+key;
+    }
+    $(function(){
+        var sd = "{:I('get.searchType','user_name')}";
+        $("#searchType").val(sd);
+    })
+</script>
+<ol class="breadcrumb">
+    <li>{:C('CONTROL_MENU')}</li>
+    <li>系统设置</li>
+    <li class="active">日志管理</li>
+</ol>
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active"><a href="javascript:void(0);">日志管理</a></li>
+</ul>
+<div class="tab-content">
+    <div class="form-inline" role="form">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <select name="searchType" id="searchType" class="form-control">
+                        <option value="user_name">用户名</option>
+                        <option value="action">操作模块</option>
+                        <option value="ip">IP地址</option>
+                    </select>
+                </div>
+                <input type="text" id="searchkey" name="searchkey" placeholder="" value="{$_GET['searchkey']}" class="form-control"/>
+            </div>
+        </div>
+        <button type="button" onclick="search()" class="btn btn-primary">搜索</button>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th><input type="checkbox" id="checkAll"></th>
+            <th>序号</th>
+            <th>用户名</th>
+            <th>模块</th>
+            <th>操作模块</th>
+            <th>操作内容</th>
+            <th>时间</th>
+            <th>状态</th>
+            <th>IP地址</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="list" id="s">
+            <tr>
+                <td><input type="checkbox" name="chkChild" value="{$s.ac_id}"></td>
+                <td>{$s.ac_id}</td>
+                <td>{$s.user_name}</td>
+                <td>{$s.module}</td>
+                <td>{$s.action}</td>
+                <td>{$s.querystring}</td>
+                <td>{$s.time}</td>
+                <td>
+                    <eq name="s.status" value="0"><font color="#8b0000">操作失败</font></eq>
+                    <eq name="s.status" value="1"><font color='#006400'>操作成功</font></eq>
+                    <eq name="s.status" value="2"><font color="#cc0000">无权操作</font></eq>
+                </td>
+                <td>{$s.ip}</td>
+                <td>
+                    <div class="btn-group btn-group">
+                        <a class="btn btn-danger" href="javascript:showYesOrNo('您确定删除吗？','{:U('Admin/ActionLog/ActionLogDel?id='.$s['ac_id'])}');">删除</a>
+                    </div>
+                </td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+</div>
+<a class="btn btn-danger" href="javascript:void(0);" id="delAll">删除选中</a>
+<div class="page">{$Page}</div>
+<script type="text/javascript">
+    $(function () {
+        $("#checkAll").click(function(){
+                    $("input[name='chkChild']").prop("checked",this.checked);
+                }
+        );
+        $("#delAll").click(function(){
+                    if (confirm('是否删除选中数据？')) {
+                        url = "{:U('ActionLog/ActionLogDel')}";
+                        var chkVas= [];
+                        $("input[name='chkChild']:checked").each(function(){chkVas.push(this.value)});
+                        if(chkVas.length > 0) window.location = url+"&id="+chkVas.join(',');
+                    }
+                }
+        );
+    });
+</script>
+<include file="./APP/Admin/View/Common/Public_footer_v1.html"/>

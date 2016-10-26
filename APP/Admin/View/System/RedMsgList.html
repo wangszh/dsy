@@ -1,0 +1,88 @@
+<include file="./APP/Admin/View/Common/Public_header.html"/>
+
+<script type="text/javascript">
+    var search_url="{:U('Admin/System/RedMsgList')}";
+    function search(){
+        var sd = $("#searchType option:selected");
+        var sc = $("#searchInfo option:selected");
+        var key = $("#searchkey").val();
+        window.location = search_url + "&searchType=" + sd.val() + "&searchInfo=" + sc.val() + "&searchkey=" + key;
+    }
+    $(function(){
+        var sd = "{:I('get.searchType','title')}";
+        $("#searchType").easyDropDown('select',sd);
+
+        var sc = "{:I('get.searchInfo','')}";
+        $("#searchInfo").easyDropDown('select',sc.toString());
+    })
+</script>
+<style type="text/css">
+    .price_lt{text-decoration:line-through;}
+</style>
+<div class="list_box">
+    <div class="sheader">
+        <h3>{:C('CONTROL_MENU')} 内容管理 - <a href="{:U('Admin/System/RedMsgList')}">消息信息管理</a></h3>
+        <div class="act">
+            <table>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:#939393;">过滤查询：</font></td>
+                    <td><select name="searchType" id="searchType" class="dropdown">
+                        <option value="">全部</option>
+                        <option value="0">广播</option>
+                        <option value="1">系统</option>
+                        <option value="2">个人</option></select>
+                    </td>
+                    <td><select name="searchInfo" id="searchInfo" class="dropdown">
+                        <option value="title">信息标题</option>
+                        <option value="owner_id">车主ID</option></select></td>
+                    <td>
+                        <input type="text" name="searchkey" placeholder="支持模糊搜索" id="searchkey" value="" class="px" />
+                    </td>
+                    <td>
+                        <input type="button" onclick="search()" value="搜索" class="myButton1"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="hr"></div>
+    </div>
+    <table class="list" border="0" cellpadding="0" cellspacing="0">
+        <thead>
+        <tr>
+            <td style="width:180px;">车主</td>
+            <td style="width:110px;">类型</td>
+            <td style="width:100px">标题</td>
+            <td style="width:300px">内容</td>
+            <td style="width:90px;">动作</td>
+            <td style="width:160px;">时间</td>
+            <td>操作</td>
+        </tr>
+        </thead>
+        <tbody><if condition="$list neq false">
+            <volist name="list" id="tl">
+                <tr>
+                    <td>车主ID:{$tl.owner_id}<br>帐号:{$tl.phone}<br>昵称:{$tl.nickname}</td>
+                    <td><if condition="$tl.type eq 'adv'" >广播
+                        <elseif condition="$tl.type eq 'per'" />个人
+                        <else />系统
+                    </if></td>
+                    <td>{$tl.title}</td>
+                    <td>{$tl.content}</td>
+                    <td>{$tl.jump_url}</td>
+                    <td>{$tl.add_time}</td>
+                    <td>
+                        <a href="javascript:showYesOrNo('您确定删除吗？','{:U('System/RedMsgListDel?msg_id='.$tl['msg_id'])}');">删除</a>
+                    </td>
+                </tr>
+            </volist><else/>
+            <tr>
+                <td colspan="14"><p class="no_data">此栏目下还没有数据！</p></td>
+            </tr>
+        </if>
+        </tbody>
+    </table>
+    <div class="hr"></div>
+    <div class="page">{$Page}</div>
+</div>
+<include file="./APP/Admin/View/Common/Public_footer.html"/>

@@ -1,0 +1,50 @@
+<include file="./APP/Admin/View/Common/Public_header.html"/>
+
+<link href="__PUBLIC__/static/Validform/css/style.css" type="text/css" rel="stylesheet" />
+
+<div class="list_box">
+    <div class="sheader">
+        <h3>{:C('CONTROL_MENU')} <a href="{:U('Admin/System/bankList')}">银行管理</a></h3>
+        <div class="act">
+            <div class="h1 fl">修改银行</div>
+            <div class="cb"></div>
+        </div>
+        <div class="cb"></div>
+        <div class="hr"></div>
+    </div>
+    <form action="{:U('Admin/System/bankEdit?bankId='.$info['bankId'])}" class="myForm" method="post">
+        <table width="100%" class="form_table">
+            <tr>
+                <td class="c1"><label>银行ID：</label></td>
+                <td class="c2">{$info.bankId}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="c1"><label>银行名称：</label></td>
+                <td class="c2"><input type="text" value="{$info.bankName}" name="bankName" datatype="*" nullmsg="请输入银行名称！" errormsg="由中文、字母、数字、下划线、空格组成！！" /></td>
+                <td><div class="Validform_checktip">由3~12位中文、字母、数字、下划线、空格组成！！</div></td>
+            </tr>
+        </table>
+        <div id="editor_id" class="dn"></div>
+        <div class="hr"></div>
+        <div class="act"><input type="submit" value="保存" class="button2"/></div>
+    </form>
+</div>
+<script type="text/javascript" src="__PUBLIC__/static/Validform/Validform_v5.3.2_min.js?t=20150112"></script>
+<script type="text/javascript" language="javascript">
+    $.extend($.Datatype,{
+        "z2-4" : /^[\u4E00-\u9FA5\uf900-\ufa2d]{2,4}$/
+    });
+    $(function(){
+        $(".myForm").Validform({
+            tiptype:function(msg,o,cssctl){
+                if(!o.obj.is("form")){
+                    var objtip=o.obj.parents("td").next().find(".Validform_checktip");
+                    cssctl(objtip,o.type);
+                    objtip.text(msg);
+                }
+            }
+        });
+    })
+</script>
+<include file="./APP/Admin/View/Common/Public_footer.html"/>

@@ -1,0 +1,100 @@
+<include file="./APP/Admin/View/Common/Public_header_v1.html"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/bt.datepicker/daterangepicker-bs3.css" />
+<script type="text/javascript" src="__PUBLIC__/static/bt.datepicker/moment.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/bt.datepicker/daterangepicker.js"></script>
+<script type="text/javascript">
+    var search_url="{:U('Admin/FAQ/answerList')}";
+    function search(){
+        var videoTitle = $("#videoTitle").val();
+        var keyWord = $("#keyWord").val();
+        if (videoTitle.length > 0)
+            search_url = search_url + "&videoTitle="+videoTitle;
+        if (keyWord.length > 0)
+            search_url = search_url + "&keyWord="+keyWord;
+
+        window.location=search_url;
+    }
+</script>
+<style>
+    .table-responsive img{width:35px;height:35px}
+</style>
+<ol class="breadcrumb">
+    <li>{:C('CONTROL_MENU')}</li>
+    <li>视频设置</li>
+    <li class="active"><a href="{:U('Admin/Video/videoList')}"> 视频列表</a></li>
+    <li class="active"><a href="{:U('Admin/FAQ/questionList?vi_id='.$que['vi_id'])}"> 问答列表</a></li>
+</ol>
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active"><a href="javascript:void(0);">回答列表</a></li>
+</ul>
+<div class="tab-content">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            问题详细
+        </div>
+        <div class="panel-body">
+        &nbsp;&nbsp;&nbsp;&nbsp;{$que.que_content}
+        </div>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>回答者</th>
+            <th>回答者头像</th>
+            <th>回答内容</th>
+            <th>回答时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <if condition="$list neq false"><volist name="list" id="s">
+            <tr>
+                <td>{$s.name}</td>
+                <td>&nbsp;&nbsp;<img src=".{$s.img}"></td>
+                <td>
+                    <a class="btn btn-default" title="点击浏览回答内容" href="javascript:void(0);" onclick="loadData('{$s.a_content}')" role="button">查看回答内容</a>
+                </td>
+                <td>{$s.a_time}</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-danger" href="{:U('Admin/FAQ/answerDel?a_id='.$s['a_id'])}" onclick="return confirm('确定要删除吗？')";>删除</a>
+                    </div>
+                </td>
+            </tr>
+        </volist><else/>
+            <tr>
+                <td colspan="5"><p style="width:80%;padding:10px;font-size:16px;color:#EC7A7A;text-align: center;"><i class="glyphicon glyphicon-search"></i> 没有找到匹配的数据！</p></td>
+            </tr>
+        </if>
+        </tbody>
+    </table>
+</div>
+<!-- 回答详细模态框（Modal） -->
+<div class="modal fade" id="answerModal" tabindex="-1" role="dialog" aria-labelledby="answerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="answerModalLabel">回答内容</h4>
+            </div>
+            <div class="modal-body" id="answerContent">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page">{$Page}</div>
+<script type="text/javascript">
+    function loadData(a_content)
+    {
+        var user_info=a_content;
+        $("#answerContent .panel-body").html(user_info);
+        $("#answerModal").modal();
+    }
+</script>
+<include file="./APP/Admin/View/Common/Public_footer_v1.html"/>

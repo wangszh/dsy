@@ -1,0 +1,80 @@
+<include file="./APP/Admin/View/Common/Public_header_v1.html"/>
+<ol class="breadcrumb">
+    <li>{:C('CONTROL_MENU')}</li>
+    <li>系统账户</li>
+    <li class="active"><a href="{:U('Admin/System/userList')}"> 账户列表</a></li>
+</ol>
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active"><a href="javascript:void(0);">账户列表</a></li>
+    <li><a href="{:U('Admin/System/userAdd')}">添加账户</a></li>
+</ul>
+<div class="tab-content">
+    <div class="panel panel-warning">
+        <div class="panel-heading"><i class="glyphicon glyphicon-warning-sign"></i> 小提示<font color="#006400"></font></div>
+        <div class="panel-body">
+            &nbsp;&nbsp;&nbsp;&nbsp;点击状态可切换启用与禁止
+        </div>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th><input type="checkbox" id="checkAll"></th>
+            <th>管理ID</th>
+            <th>用户名</th>
+            <th>状态</th>
+            <th>最后登录时间</th>
+            <th>最后登录IP</th>
+            <th>最后登录位置</th>
+            <th>用户角色</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="list" id="s">
+            <tr>
+                <td><input type="checkbox" name="chkChild" value="{$s.user_id}"></td>
+                <td>{$s.user_id}</td>
+                <td>{$s.user_name}</td>
+                <td><eq name="s.status" value="0">
+                    <a href="{:U('System/changeStatus?method=resumeUser&id='.$s['user_id'])}" title="点击启用"><span class="label label-danger"><i class="glyphicon glyphicon-remove"></i></span></a>
+                    <else/>
+                    <a href="{:U('System/changeStatus?method=forbidUser&id='.$s['user_id'])}" title="点击禁用"><span class="label label-success"><i class="glyphicon glyphicon-ok"></i></span></a></eq>
+                </td>
+                <td>{$s.last_login_time}</td>
+                <td><a href="javascript:void(0);" onclick="viewLoginLog({$s.user_id});" title="点击查看历史记录">{$s.last_login_ip}</a></td>
+                <td>{$s.last_location}</td>
+                <td title="{$s.remark}">{$s.title}</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-success" href="{:U('System/userEdit?user_id='.$s['user_id'])}">编辑</a>
+                        <a class="btn btn-warning" href="{:U('System/chanPass?user_id='.$s['user_id'])}">修改密码</a>
+                        <a class="btn btn-danger" href="javascript:showYesOrNo('您确定删除吗？','{:U('System/userDel?user_id='.$s['user_id'])}');">删除</a>
+                    </div>
+                </td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+</div>
+<a class="btn btn-danger" href="javascript:void(0);" id="delAll">删除选中</a>
+<div class="page">{$Page}</div>
+<script type="text/javascript">
+    $(function () {
+        $("#checkAll").click(function(){
+                $("input[name='chkChild']").prop("checked",this.checked);
+            }
+        );
+        $("#delAll").click(function(){
+                if (confirm('是否删除选中数据？')) {
+                    url = "{:U('System/userDel')}";
+                    var chkVas= [];
+                    $("input[name='chkChild']:checked").each(function(){chkVas.push(this.value)});
+                    if(chkVas.length > 0) window.location = url+"&user_id="+chkVas.join(',');
+                }
+            }
+        );
+    });
+</script>
+<include file="./APP/Admin/View/Common/Public_footer_v1.html"/>

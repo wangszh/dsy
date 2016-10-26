@@ -1,0 +1,44 @@
+<include file="./APP/Admin/View/Common/Public_header.html" xmlns="http://www.w3.org/1999/html"/>
+
+<div class="list_box">
+    <div class="sheader">
+        <h3>{:C('CONTROL_MENU')} <a href="{:U('Admin/System/InfoPush')}">信息推送管理</a></h3>
+        <div class="act">
+            <p style="color:#666;">
+                1、通知标题请不要超过15个字符。
+                <br>2、通知内容请不要超过200个字符。
+                <br>3、JPush服务器接收是最大2000个字节。一个汉字表示3个字节！</p>
+        </div>
+        <div class="hr"></div>
+    </div>
+    <form action="{:U('Admin/System/InfoPushOne')}" class="myForm" method="post">
+        <table width="100%" class="form_table">
+            <thead>
+            <tr>
+                <td style="width:20%">车主用户名:<br><input type="text" value="" name="user_name"/></td>
+                <td style="width:20%">通知标题:<br><input type="text" value="" name="title" maxlength="15" /></td>
+                <td style="width:40%">通知内容:<br><input type="text" value="" style="width:250px;" name="content" maxlength="200"/></td>
+                <td style="width:10%"><input type="submit" value="推送指定标识" class="button2"/></td>
+                <td style="width:10%"><input type="reset" value="重写" class="button2"/></td>
+            </tr>
+            </thead>
+        </table>
+    </form><br>
+    <div class="hr"></div><br>
+    <form action="{:U('Admin/System/InfoPushAll')}" class="myForm" method="post">
+        <table width="100%" class="form_table">
+            <thead>
+            <tr>
+                <td style="width:20%">所有用户:<br><input type="text" value="all" name="user_name" readonly="readonly"/></td>
+                <td style="width:20%">通知标题:<br><input type="text" value="" name="title" maxlength="15" /></td>
+                <td style="width:40%">通知内容:<br><input type="text" value="" style="width:250px;" name="content" maxlength="200" /></td>
+                <td style="width:10%"><input type="submit" value="推送给全部" class="button2"/></td>
+                <td style="width:10%"><input type="reset" value="重写" class="button2"/></td>
+            </tr>
+            </thead>
+        </table>
+    </form>
+    <div class="hr"></div>
+    <div class="page"></div>
+</div>
+<include file="./APP/Admin/View/Common/Public_footer.html"/>

@@ -1,0 +1,4 @@
+[ 2016-07-13T14:14:08+08:00 ] ::1 /dsy/interface.php/v1/index/login
+SQL: SHOW COLUMNS FROM `dsy_student` [ RunTime:0.0606s ]
+SQL: SELECT `stu_id`,`stu_nickname`,`stu_sex`,`stu_creat_time`,`stu_head_img`,`class_id`,`stu_phone`,`stu_city`,`stu_profession` FROM `dsy_student` WHERE `stu_password` = 'd41d8cd98f00b204e9800998ecf8427e' AND `stu_user` = '' LIMIT 1   [ RunTime:0.0235s ]
+

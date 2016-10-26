@@ -1,0 +1,78 @@
+<include file="./APP/Admin/View/Common/Public_header.html"/>
+<style type="text/css">
+.button{ background:none; width:auto; padding:0 10px;}
+.active{ background:#CCC}
+.remark{background:#CCC; border-bottom:1px solid #444444;}
+.remark div{ color:#444444 !important}
+.li1{ background:#DDD;}
+.li1 div{ color:#666666 !important}
+.list a{ text-decoration:none;}
+</style>
+<div class="my-property">
+	<div class="act">
+    	<a class="fl button ml10 <eq name="type" value="5">active</eq>" href="{:U('Admin/System/privilegesList')}">系统全部权限</a>
+        <a class="fl button ml10 <eq name="type" value="3">active</eq>" href="{:U('Admin/System/privilegesList?type=3')}">总店铺权限</a>
+        <a class="fl button ml10 <eq name="type" value="4">active</eq>" href="{:U('Admin/System/privilegesList?type=4')}">分店铺权限</a>
+        <a class="fr button2" href="{:U('Admin/System/privilegesInfo')}">添加权限</a>
+        <div class="cb"></div>
+    </div>
+    <div class="hr"></div>
+    <ul class="list">
+        <li class="item active">
+            <ul>
+                <li class="remark">
+                    <div style="width:10%">权限id</div>
+                    <div style="width:15%">权限名称</div>
+                    <div style="width:10%">上级权限</div>
+                    <div style="width:10%">模块</div>
+                    <div style="width:10%">控制器</div>
+                    <div style="width:10%">方法</div>
+                    <div style="width:10%">是否为菜单</div>
+                    <div style="width:10%">排序</div>
+                    <div style="width:10%">操作</div>
+                    <div class="cb"></div>
+                </li>
+                <volist name="list" id="m">
+                    <li class="li1">
+                    	<div style="width:10%">{$m.privilege_id}&nbsp;</div>
+                        <div style="width:15%">{$m.privilege_name}&nbsp;</div>
+                        <div style="width:10%">{$m.pid}&nbsp;</div>
+                        <div style="width:10%">{$m.module_name}&nbsp;</div>
+                        <div style="width:10%">{$m.controller_name}&nbsp;</div>
+                        <div style="width:10%">{$m.action_name}&nbsp;</div>
+                        <div style="width:10%">{$m['is_show']?'是':'否'}&nbsp;</div>
+                        <div style="width:10%">{$m.sort}</div>
+                        <div style="width:10%">
+                        	<a href="{:U('Admin/System/privilegesInfo?privilege_id='.$m['privilege_id'])}">修改</a> | 
+                            <a href="{:U('Admin/System/delPrivileges?privilege_id='.$m['privilege_id'])}">删除</a>
+                        </div>
+                        <div class="cb"></div>
+                    </li>
+                    <ul>
+                        <volist name="m.sub" id="io">
+                        <li>
+                            <div style="width:5%">&nbsp;</div>
+                            <div style="width:5%">{$io.privilege_id}&nbsp;</div>
+                            <div style="width:15%">{$io.privilege_name}&nbsp;</div>
+                            <div style="width:10%">{$io.pid}&nbsp;</div>
+                            <div style="width:10%">{$io.module_name}&nbsp;</div>
+                            <div style="width:10%">{$io.controller_name}&nbsp;</div>
+                            <div style="width:10%">{$io.action_name}&nbsp;</div>
+                            <div style="width:10%">{$io['is_show']?'是':'否'}&nbsp;</div>
+                            <div style="width:10%">{$io.sort}</div>
+                            <div style="width:10%">
+                                <a href="{:U('Admin/System/privilegesInfo?privilege_id='.$io['privilege_id'])}">修改</a> | 
+                                <a href="{:U('Admin/System/delPrivileges?privilege_id='.$io['privilege_id'])}">删除</a>
+                            </div>
+                            <div class="cb"></div>
+                        </li>
+                        </volist>
+                    </ul>
+                </volist>
+            </ul>
+        </li>
+    </ul>
+    <div class="hr"></div>
+	<div class="page">{$page}</div>
+</div>
+<include file="./APP/Admin/View/Common/Public_footer.html"/>

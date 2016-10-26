@@ -1,0 +1,55 @@
+<include file="./APP/Admin/View/Common/Public_header_v1.html"/>
+<style type="text/css">
+    .form-horizontal{width:850px;}
+    .form-horizontal>.form-group{border-top: 1px solid #ccc;padding-top:20px;margin-left:15px;margin-right:0px;}
+    .form-horizontal>.form-group:first-child{border-top:none;}
+    .form-group>.col-sm-2{width: 110px;}
+    .form-group>.col-sm-10{width: 700px;}
+    select.form-control{width: auto !important;}
+</style>
+<ol class="breadcrumb">
+    <li>{:C('CONTROL_MENU')}</li>
+    <li>权限管理</li>
+    <li><a href="{:U('Admin/Auth/modulesList')}">模块管理</a></li>
+    <li class="active">添加模块</li>
+</ol>
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active"><a href="javascript:void(0);">添加模块</a></li>
+</ul>
+<form action="{:U('Admin/Auth/modulesAdd')}" class="form-horizontal" method="post">
+    <div class="form-group">
+        <label for="moduleName" class="col-sm-2 control-label">模块名称</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="text" value="" name="moduleName" id="moduleName" datatype="s3-20" nullmsg="请输入模块名称！" errormsg="3~20字以内的模块名称" />
+            <div class="Validform_checktip">3~20字以内的模块名称</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">保存发布</button>
+        </div>
+    </div>
+</form>
+
+<link href="__PUBLIC__/static/Validform/css/style.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="__PUBLIC__/static/Validform/Validform_v5.3.2_min.js"></script>
+<script type="text/javascript" language="javascript">
+    $(function(){
+        $(".form-horizontal").Validform({
+            tiptype:function(msg,o,cssctl){
+                if(!o.obj.is("form")){
+                    var objtip=o.obj.next(".Validform_checktip");
+                    cssctl(objtip,o.type);
+                    objtip.text(msg);
+                }
+            },
+            beforeCheck:function(curform){
+                if(!confirm('确定提交本次操作吗？'))
+                {
+                    return false;
+                }
+            }
+        });
+    });
+</script>
+<include file="./APP/Admin/View/Common/Public_footer_v1.html"/>

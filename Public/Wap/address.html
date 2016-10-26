@@ -1,0 +1,510 @@
+<style type="text/css">
+<!--
+DIV {
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    PADDING-LEFT: 0px;
+    PADDING-RIGHT: 0px;
+    PADDING-TOP: 0px
+}
+
+DL {
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    PADDING-LEFT: 0px;
+    PADDING-RIGHT: 0px;
+    PADDING-TOP: 0px
+}
+
+DT {
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    PADDING-LEFT: 0px;
+    PADDING-RIGHT: 0px;
+    PADDING-TOP: 0px
+}
+
+DD {
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    PADDING-LEFT: 0px;
+    PADDING-RIGHT: 0px;
+    PADDING-TOP: 0px
+}
+
+UL {
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    PADDING-LEFT: 0px;
+    PADDING-RIGHT: 0px;
+    PADDING-TOP: 0px
+}
+
+OL {
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    PADDING-LEFT: 0px;
+    PADDING-RIGHT: 0px;
+    PADDING-TOP: 0px
+}
+
+LI {
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    PADDING-LEFT: 0px;
+    PADDING-RIGHT: 0px;
+    PADDING-TOP: 0px
+}
+
+H1 {
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    PADDING-LEFT: 0px;
+    PADDING-RIGHT: 0px;
+    PADDING-TOP: 0px
+}
+
+H2 {
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    PADDING-LEFT: 0px;
+    PADDING-RIGHT: 0px;
+    PADDING-TOP: 0px
+}
+
+P {
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    PADDING-LEFT: 0px;
+    PADDING-RIGHT: 0px;
+    PADDING-TOP: 0px
+}
+
+LI {
+    LIST-STYLE-TYPE: none;
+    LIST-STYLE-IMAGE: none
+}
+
+H2 {
+    FONT-SIZE: 100%
+}
+
+#change-city {
+    width: 100%;
+    height: 100%;
+    margin: 0px auto;
+}
+
+#change-city .choosecities {
+    BORDER-BOTTOM: #a3d7df 1px solid;
+    BORDER-LEFT: #a3d7df 1px solid;
+    PADDING-BOTTOM: 60px;
+    BACKGROUND: #fff;
+    BORDER-TOP: #a3d7df 1px solid;
+    BORDER-RIGHT: #a3d7df 1px solid;
+    box-shadow: 0 0 1px #d4edf4
+}
+
+#change-city .choosecities A:hover {
+    TEXT-DECORATION: none
+}
+
+#change-city .citieslist H2 {
+    POSITION: relative;
+    PADDING-BOTTOM: 0px;
+    LINE-HEIGHT: 30px;
+    MARGIN: 20px 20px 12px;
+    PADDING-LEFT: 14px;
+    PADDING-RIGHT: 14px;
+    ZOOM: 1;
+    DISPLAY: inline-block;
+    BACKGROUND: #00c7c7;
+    HEIGHT: 32px;
+    COLOR: #fff;
+    PADDING-TOP: 0px;
+    border-radius: 0
+}
+
+#change-city .citieslist H2 SPAN {
+    BORDER-BOTTOM: #fff 6px solid;
+    POSITION: absolute;
+    BORDER-LEFT: #fff 6px solid;
+    LINE-HEIGHT: 0;
+    WIDTH: 0px;
+    DISPLAY: block;
+    FLOAT: none;
+    HEIGHT: 0px;
+    FONT-SIZE: 0px;
+    BORDER-TOP: #00c7c7 6px solid;
+    TOP: 32px;
+    BORDER-RIGHT: #fff 6px solid;
+    LEFT: 20px
+}
+
+/*#change-city .citieslist LI {
+    BORDER-BOTTOM: #fff 1px solid;
+    BORDER-TOP: #fff 1px solid
+}*/
+
+#change-city .citieslist P {
+    BORDER-BOTTOM: #fff 1px solid;
+    PADDING-BOTTOM: 6px;
+    PADDING-LEFT: 30px;
+    PADDING-RIGHT: 10px;
+    BORDER-TOP: #fff 1px solid;
+    PADDING-TOP: 6px
+}
+
+#change-city .citieslist SPAN.label {
+    BORDER-BOTTOM: #ddd 1px solid;
+    BORDER-LEFT: #ddd 1px solid;
+    LINE-HEIGHT: 24px;
+    WIDTH: 30px;
+    ZOOM: 1;
+    DISPLAY: inline-block;
+    HEIGHT: 30px;
+    COLOR: #666;
+    VERTICAL-ALIGN: top;
+    BORDER-TOP: #ddd 1px solid;
+    MARGIN-RIGHT: 5px;
+    BORDER-RIGHT: #ddd 1px solid;
+    border-radius: 0
+}
+
+#change-city .citieslist SPAN.label STRONG {
+    BORDER-BOTTOM: #f7f7f7 1px solid;
+    TEXT-ALIGN: center;
+    BORDER-LEFT: #f7f7f7 1px solid;
+    WIDTH: 28px;
+    DISPLAY: block;
+    FONT-FAMILY: Tahoma;
+    BACKGROUND: #f1f1f1;
+    HEIGHT: 28px;
+    FONT-SIZE: 16px;
+    BORDER-TOP: #f7f7f7 1px solid;
+    BORDER-RIGHT: #f7f7f7 1px solid;
+    border-radius: 0
+}
+
+#change-city .citieslist SPAN {
+    WIDTH: 60%;
+    ZOOM: 1;
+    DISPLAY: inline-block;
+    VERTICAL-ALIGN: top
+}
+
+#change-city .citieslist SPAN I {
+    FONT-STYLE: normal;
+    MARGIN: 0px 3px;
+    COLOR: #ccc
+}
+
+#change-city .citieslist .hover {
+    BORDER-BOTTOM-COLOR: #e5e5e5;
+    BORDER-TOP-COLOR: #e5e5e5;
+    BORDER-RIGHT-COLOR: #e5e5e5;
+    BORDER-LEFT-COLOR: #e5e5e5
+}
+
+/*#change-city .citieslist .hover P {
+    BACKGROUND: #f7f7f7
+}*/
+
+#change-city .citieslist .hover SPAN.label {
+    BORDER-BOTTOM-COLOR: #1fb7bb;
+    BORDER-TOP-COLOR: #1fb7bb;
+    BORDER-RIGHT-COLOR: #1fb7bb;
+    BORDER-LEFT-COLOR: #1fb7bb
+}
+
+#change-city .citieslist .hover SPAN.label STRONG {
+    BORDER-BOTTOM-COLOR: #00c7c7;
+    BORDER-TOP-COLOR: #00c7c7;
+    BACKGROUND: #00c7c7;
+    COLOR: #fff;
+    BORDER-RIGHT-COLOR: #00c7c7;
+    BORDER-LEFT-COLOR: #00c7c7
+}
+
+#change-city .citieslist A {
+    PADDING-BOTTOM: 1px;
+    LINE-HEIGHT: 20px;
+    MARGIN: 5px 10px;
+    PADDING: 5px 10px;
+    ZOOM: 1;
+    DISPLAY: inline-block;
+    HEIGHT: 20px;
+    border-radius: 0
+}
+
+#change-city .citieslist A:hover {
+    BACKGROUND: #00c7c7;
+    COLOR: #fff
+}
+
+#change-city .citieslist .isonline {
+    FONT-WEIGHT: bold
+}
+
+#change-city .citieslist .isoffline {
+    FONT-WEIGHT: bold
+}
+
+#bdw {
+    MIN-HEIGHT: 500px
+}
+
+.cf {
+    ZOOM: 1
+}
+
+.cf:after {
+    DISPLAY: block;
+    HEIGHT: 0px;
+    VISIBILITY: hidden;
+    CLEAR: both;
+    OVERFLOW: hidden;
+    CONTENT: ''
+}
+
+H2 {
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    PADDING-LEFT: 0px;
+    PADDING-RIGHT: 0px;
+    PADDING-TOP: 0px
+}
+
+BODY {
+    FONT: 14px/1.5 Tahoma, Helvetica, arial, sans-serif;
+    BACKGROUND: #d6e9ec;
+    COLOR: #000
+}
+
+A {
+    COLOR: #399;
+    TEXT-DECORATION: none
+}
+
+A:hover {
+    TEXT-DECORATION: underline
+}
+
+SPAN.money {
+    FONT-FAMILY: arial
+}
+
+SPAN.required {
+    COLOR: red
+}
+
+.right {
+    float: right;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.clearfix:before, .clearfix:after {
+    display: table;
+    line-height: 0;
+    content: "";
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.kao {
+    position: absolute;
+    top: 8%;
+    left: 10%;
+    z-index: 1;
+}
+.hasallcity li {display: none;}
+#city-default a{display: block;width:60px;padding:5px;margin-right:10px;float:left;text-align: center;}
+-->
+</style>
+<div style="margin: 0;height: 50px;background-color: #eeeeee;">
+    <div style="float: left;height: 50px;line-height: 50px;padding-left:10px;"><B style="font-size: 16px;">选择城市</B></div>
+    <div style="float: right;height:50px;line-height: 50px;width:50px;text-align: center;" onclick="closeLayer();">
+        <img width="18px" height="18px" src="/cyh/public/btn_closed.png"/>
+    </div>
+</div>
+<div id="change-city">
+    <div id="bdw" class="bdw">
+        <div id="bd" class="cf">
+            <div class="choosecities">
+                <div class="citieslist">
+                    <div class="clearfix">
+                        <h2 style="float: left;">热门城市<span class="arrow">&raquo;</span></h2>
+                    </div>
+                    <div id="city-default" class="clearfix">
+                    </div>
+                    <ol class="hasallcity clearfix">
+                        <li id="city-A">
+                            <p class="cf"><span class="label right"><strong>A</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-B">
+                            <p class="cf"><span class="label right"><strong>B</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-C">
+                            <p class="cf"><span class="label right"><strong>C</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-D">
+                            <p class="cf"><span class="label right"><strong>D</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-E">
+                            <p class="cf"><span class="label right"><strong>E</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-F">
+                            <p class="cf"><span class="label right"><strong>F</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-G">
+                            <p class="cf"><span class="label right"><strong>G</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-H">
+                            <p class="cf"><span class="label right"><strong>H</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-J">
+                            <p class="cf"><span class="label right"><strong>J</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-K">
+                            <p class="cf"><span class="label right"><strong>K</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-L">
+                            <p class="cf"><span class="label right"><strong>L</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-M">
+                            <p class="cf"><span class="label right"><strong>M</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-N">
+                            <p class="cf"><span class="label right"><strong>N</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-P">
+                            <p class="cf"><span class="label right"><strong>P</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-Q">
+                            <p class="cf"><span class="label right"><strong>Q</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-R">
+                            <p class="cf"><span class="label right"><strong>R</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-S">
+                            <p class="cf"><span class="label right"><strong>S</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-T">
+                            <p class="cf"><span class="label right"><strong>T</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-W">
+                            <p class="cf"><span class="label right"><strong>W</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-X">
+                            <p class="cf"><span class="label right"><strong>X</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-Y">
+                            <p class="cf"><span class="label right"><strong>Y</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                        <li id="city-Z">
+                            <p class="cf"><span class="label right"><strong>Z</strong></span><span class="kao"></span>
+                            </p>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="./Public/Wap/jquery-1.8.2.min.js"></script>
+<script language="javascript" type="text/javascript">
+    $(function () {
+        init();
+        $(".hasallcity li").hover(function () {
+            $(this).addClass('hover');
+        }, function () {
+            $(this).removeClass('hover');
+        });
+
+        function init() {
+            // 隐藏所有的城市信息
+            $("ol li p").each(function (i, o) {
+                $(o).children().eq(1).css({'display': 'none'});
+            });
+        }
+
+        // ajax获取热门城市  重庆，深圳，东莞
+        $("#city-default").html(
+                "<a href='javascript:select(\"441400|梅州市\");'>梅州市</a>" +
+                "<a href='javascript:select(\"440300|深圳市\");'>深圳市</a>" +
+                "<a href='javascript:select(\"441900|东莞市\");'>东莞市</a>");
+
+//        $("ol li p span").filter('.label').each(function () {
+//            $(this).click(function () {
+//                init();
+//                var code = $.trim($(this).text());
+//                var cur = this;
+//                $.ajax({
+//                    url: "./index.php?m=Wap&c=Shop&a=LoadCityByPY",    // 请求的url地址
+//                    dataType: "json",   // 返回格式为json,后台返回的东西不需要是json格式的，直接返回
+//                    async: false,		// 请求是否异步，默认为异步，这也是ajax重要特性
+//                    data: {'code': code},    //参数值
+//                    type: "get",   //请求方式
+//                    beforeSend: function () {
+//                        //请求前的处理
+//                    },
+//                    success: function (data) {
+//                        if (data.length == 0) {
+//                            alert("没有获取到城市。。。");
+//                        } else {
+//                            var html = '<ul>';
+//                            $(data).each(function (i, o) {
+//                                html += "<li><a href='javascript:select(\"" + o.city_id + "|" + o.city + "\");'>" + o.city + "</a></li>";
+//                            });
+//
+//                            html += "</ul>";
+//                            $(cur).next().html(html);
+//                        }
+//                    },
+//                    complete: function () {
+//                        // 请求完成的处理
+//                    },
+//                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+//                        // 请求出错处理
+//                    }
+//                });
+//
+//                $(this).next().css({'display': 'block'});
+//            });
+//        });
+        $(".choosecities").height(window.screen.height);
+    });
+
+    /**
+     * 关闭层
+     */
+    function closeLayer() {
+        layer.closeAll();
+    }
+</script>
